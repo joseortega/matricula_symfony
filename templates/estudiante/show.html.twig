@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Estudiante{% endblock %}
+
+{% block body %}
+    <h1>Estudiante</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ estudiante.id }}</td>
+            </tr>
+            <tr>
+                <th>Identificacion</th>
+                <td>{{ estudiante.identificacion }}</td>
+            </tr>
+            <tr>
+                <th>Apellidos</th>
+                <td>{{ estudiante.apellidos }}</td>
+            </tr>
+            <tr>
+                <th>Nombres</th>
+                <td>{{ estudiante.nombres }}</td>
+            </tr>
+            <tr>
+                <th>Sexo</th>
+                <td>{{ estudiante.sexo }}</td>
+            </tr>
+            <tr>
+                <th>Correo</th>
+                <td>{{ estudiante.correo }}</td>
+            </tr>
+            <tr>
+                <th>Telefono</th>
+                <td>{{ estudiante.telefono }}</td>
+            </tr>
+            <tr>
+                <th>FechaNacimiento</th>
+                <td>{{ estudiante.fechaNacimiento ? estudiante.fechaNacimiento|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_estudiante_index') }}">back to list</a>
+
+    <a href="{{ path('app_estudiante_edit', {'id': estudiante.id}) }}">edit</a>
+
+    {{ include('estudiante/_delete_form.html.twig') }}
+{% endblock %}
