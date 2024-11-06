@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240824000635 extends AbstractMigration
+final class Version20241028010616 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -24,7 +24,6 @@ final class Version20240824000635 extends AbstractMigration
         $this->addSql('CREATE TABLE estudiante (id INT AUTO_INCREMENT NOT NULL, nacionalidad_id INT DEFAULT NULL, expediente_id INT DEFAULT NULL, uniforme_talla_id INT DEFAULT NULL, identificacion VARCHAR(255) NOT NULL, apellidos VARCHAR(255) NOT NULL, nombres VARCHAR(255) NOT NULL, sexo VARCHAR(255) NOT NULL, fecha_nacimiento DATE NOT NULL, telefono VARCHAR(255) DEFAULT NULL, correo VARCHAR(255) DEFAULT NULL, tiene_discapacidad TINYINT(1) NOT NULL, lugar_residencia VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_3B3F3FAD84291D2B (identificacion), INDEX IDX_3B3F3FADAB8DC0F8 (nacionalidad_id), UNIQUE INDEX UNIQ_3B3F3FAD4BF37E4E (expediente_id), INDEX IDX_3B3F3FADDC47B5C3 (uniforme_talla_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE estudiante_representante (id INT AUTO_INCREMENT NOT NULL, estudiante_id INT NOT NULL, representante_id INT NOT NULL, parentesco_id INT NOT NULL, es_principal TINYINT(1) NOT NULL, INDEX IDX_16A02FED59590C39 (estudiante_id), INDEX IDX_16A02FED2FD20D28 (representante_id), INDEX IDX_16A02FED5BA311FC (parentesco_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE expediente (id INT AUTO_INCREMENT NOT NULL, estudiante_id INT NOT NULL, observacion VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_D59CA41359590C39 (estudiante_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE expediente_item (id INT AUTO_INCREMENT NOT NULL, expediente_id INT NOT NULL, requisito_id INT NOT NULL, estado VARCHAR(255) NOT NULL, INDEX IDX_AF3146CB4BF37E4E (expediente_id), INDEX IDX_AF3146CBFA50198E (requisito_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE grado_escolar (id INT AUTO_INCREMENT NOT NULL, nivel_id INT NOT NULL, descripcion VARCHAR(255) NOT NULL, secuencia INT DEFAULT NULL, INDEX IDX_98C04955DA3426AE (nivel_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE grado_escolar_requisito (id INT AUTO_INCREMENT NOT NULL, grado_escolar_id INT NOT NULL, requisito_id INT NOT NULL, es_obligatorio TINYINT(1) NOT NULL, INDEX IDX_4B461A34B6E91F0F (grado_escolar_id), INDEX IDX_4B461A34FA50198E (requisito_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE institucion (id INT AUTO_INCREMENT NOT NULL, distrito_id INT NOT NULL, denominacion VARCHAR(255) NOT NULL, INDEX IDX_F751F7C3E557397E (distrito_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -49,8 +48,6 @@ final class Version20240824000635 extends AbstractMigration
         $this->addSql('ALTER TABLE estudiante_representante ADD CONSTRAINT FK_16A02FED2FD20D28 FOREIGN KEY (representante_id) REFERENCES representante (id)');
         $this->addSql('ALTER TABLE estudiante_representante ADD CONSTRAINT FK_16A02FED5BA311FC FOREIGN KEY (parentesco_id) REFERENCES parentesco (id)');
         $this->addSql('ALTER TABLE expediente ADD CONSTRAINT FK_D59CA41359590C39 FOREIGN KEY (estudiante_id) REFERENCES estudiante (id)');
-        $this->addSql('ALTER TABLE expediente_item ADD CONSTRAINT FK_AF3146CB4BF37E4E FOREIGN KEY (expediente_id) REFERENCES expediente (id)');
-        $this->addSql('ALTER TABLE expediente_item ADD CONSTRAINT FK_AF3146CBFA50198E FOREIGN KEY (requisito_id) REFERENCES requisito (id)');
         $this->addSql('ALTER TABLE grado_escolar ADD CONSTRAINT FK_98C04955DA3426AE FOREIGN KEY (nivel_id) REFERENCES nivel (id)');
         $this->addSql('ALTER TABLE grado_escolar_requisito ADD CONSTRAINT FK_4B461A34B6E91F0F FOREIGN KEY (grado_escolar_id) REFERENCES grado_escolar (id)');
         $this->addSql('ALTER TABLE grado_escolar_requisito ADD CONSTRAINT FK_4B461A34FA50198E FOREIGN KEY (requisito_id) REFERENCES requisito (id)');
@@ -61,11 +58,15 @@ final class Version20240824000635 extends AbstractMigration
         $this->addSql('ALTER TABLE matricula ADD CONSTRAINT FK_15DF1885DB3C1E64 FOREIGN KEY (paralelo_id) REFERENCES paralelo (id)');
         $this->addSql('ALTER TABLE matricula ADD CONSTRAINT FK_15DF1885B6E91F0F FOREIGN KEY (grado_escolar_id) REFERENCES grado_escolar (id)');
         $this->addSql('ALTER TABLE matricula ADD CONSTRAINT FK_15DF1885D871B602 FOREIGN KEY (periodo_lectivo_id) REFERENCES periodo_lectivo (id)');
+        $this->addSql('ALTER TABLE expediente_requisito ADD CONSTRAINT FK_34CEF95F4BF37E4E FOREIGN KEY (expediente_id) REFERENCES expediente (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE expediente_requisito ADD CONSTRAINT FK_34CEF95FFA50198E FOREIGN KEY (requisito_id) REFERENCES requisito (id) ON DELETE CASCADE');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE expediente_requisito DROP FOREIGN KEY FK_34CEF95F4BF37E4E');
+        $this->addSql('ALTER TABLE expediente_requisito DROP FOREIGN KEY FK_34CEF95FFA50198E');
         $this->addSql('ALTER TABLE distrito DROP FOREIGN KEY FK_BE2719FD104EA8FC');
         $this->addSql('ALTER TABLE estudiante DROP FOREIGN KEY FK_3B3F3FADAB8DC0F8');
         $this->addSql('ALTER TABLE estudiante DROP FOREIGN KEY FK_3B3F3FAD4BF37E4E');
@@ -74,8 +75,6 @@ final class Version20240824000635 extends AbstractMigration
         $this->addSql('ALTER TABLE estudiante_representante DROP FOREIGN KEY FK_16A02FED2FD20D28');
         $this->addSql('ALTER TABLE estudiante_representante DROP FOREIGN KEY FK_16A02FED5BA311FC');
         $this->addSql('ALTER TABLE expediente DROP FOREIGN KEY FK_D59CA41359590C39');
-        $this->addSql('ALTER TABLE expediente_item DROP FOREIGN KEY FK_AF3146CB4BF37E4E');
-        $this->addSql('ALTER TABLE expediente_item DROP FOREIGN KEY FK_AF3146CBFA50198E');
         $this->addSql('ALTER TABLE grado_escolar DROP FOREIGN KEY FK_98C04955DA3426AE');
         $this->addSql('ALTER TABLE grado_escolar_requisito DROP FOREIGN KEY FK_4B461A34B6E91F0F');
         $this->addSql('ALTER TABLE grado_escolar_requisito DROP FOREIGN KEY FK_4B461A34FA50198E');
@@ -90,7 +89,6 @@ final class Version20240824000635 extends AbstractMigration
         $this->addSql('DROP TABLE estudiante');
         $this->addSql('DROP TABLE estudiante_representante');
         $this->addSql('DROP TABLE expediente');
-        $this->addSql('DROP TABLE expediente_item');
         $this->addSql('DROP TABLE grado_escolar');
         $this->addSql('DROP TABLE grado_escolar_requisito');
         $this->addSql('DROP TABLE institucion');

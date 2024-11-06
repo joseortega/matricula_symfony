@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ExpedienteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 use JMS\Serializer\Annotation\Type;
@@ -25,12 +26,21 @@ class Expediente
     #[ORM\JoinColumn(nullable: false)]
     private ?Estudiante $estudiante = null;
 
-    #[ORM\OneToMany(mappedBy: 'expediente', targetEntity: ExpedienteItem::class)]
-    private Collection $expedienteItems;
+    /**
+     * @var Collection<int, Requisito>
+     */
+    #[ORM\ManyToMany(targetEntity: Requisito::class)]
+    private Collection $requisitos;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $recibido_en = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $retirado_en = null;
 
     public function __construct()
     {
-        $this->expedienteItems = new ArrayCollection();
+        $this->requisitos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -63,31 +73,49 @@ class Expediente
     }
 
     /**
-     * @return Collection<int, ExpedienteItem>
+     * @return Collection<int, Requisito>
      */
-    public function getExpedienteItems(): Collection
+    public function getRequisitos(): Collection
     {
-        return $this->expedienteItems;
+        return $this->requisitos;
     }
 
-    public function addExpedienteItem(ExpedienteItem $expedienteItem): static
+    public function addRequisito(Requisito $requisito): static
     {
-        if (!$this->expedienteItems->contains($expedienteItem)) {
-            $this->expedienteItems->add($expedienteItem);
-            $expedienteItem->setExpediente($this);
+        if (!$this->requisitos->contains($requisito)) {
+            $this->requisitos->add($requisito);
         }
 
         return $this;
     }
 
-    public function removeExpedienteItem(ExpedienteItem $expedienteItem): static
+    public function removeRequisito(Requisito $requisito): static
     {
-        if ($this->expedienteItems->removeElement($expedienteItem)) {
-            // set the owning side to null (unless already changed)
-            if ($expedienteItem->getExpediente() === $this) {
-                $expedienteItem->setExpediente(null);
-            }
-        }
+        $this->requisitos->removeElement($requisito);
+
+        return $this;
+    }
+
+    public function getRecibidoEn(): ?\DateTimeInterface
+    {
+        return $this->recibido_en;
+    }
+
+    public function setRecibidoEn(?\DateTimeInterface $recibido_en): static
+    {
+        $this->recibido_en = $recibido_en;
+
+        return $this;
+    }
+
+    public function getRetiradoEn(): ?\DateTimeInterface
+    {
+        return $this->retirado_en;
+    }
+
+    public function setRetiradoEn(?\DateTimeInterface $retirado_en): static
+    {
+        $this->retirado_en = $retirado_en;
 
         return $this;
     }

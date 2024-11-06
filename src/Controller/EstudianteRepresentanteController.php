@@ -7,6 +7,7 @@ use App\Repository\EstudianteRepository;
 use App\Entity\EstudianteRepresentante;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -49,6 +50,23 @@ class EstudianteRepresentanteController extends AbstractController
          }
         
         return new Response($this->serializer->serialize($estudianteRepresentante, 'json'), Response::HTTP_OK);
+    }
+    
+    #[Route('/estudiante/{estudianteId}/representante/existe-principal', name: 'app_estudiante_representante_existe_principal', methods: ['GET'], defaults: ["_format"=>"json"])]
+    public function existePrincipal(int $estudianteId): Response
+    { 
+        $existePrincipal = false;
+        
+        $estudianteRepresentante =  $this->estudianteRepresentanteRepository->findOneBy([
+            "estudiante"=>$estudianteId,
+            "esPrincipal"=>true
+        ]);     
+        
+         if($estudianteRepresentante){
+            $existePrincipal = true;
+         }
+
+        return new Response($this->serializer->serialize($existePrincipal, 'json'), Response::HTTP_OK);
     }
 
     #[Route('/estudiante/{estudianteId}/representante/alternativos', name: 'app_estudiante_representante_alternativos')]

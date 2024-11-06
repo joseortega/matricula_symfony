@@ -28,10 +28,10 @@ class ExpedienteController extends AbstractController
     ){
     }
 
-    #[Route('/estudiante/{estudianteId}/expediente/{id}', methods: ['GET'],  name: 'app_expediente_show')]
-    public function show(int $estudianteId, int $id): Response
+    #[Route('/estudiante/{estudianteId}/expediente/', methods: ['GET'],  name: 'app_expediente_show')]
+    public function show(int $estudianteId): Response
     {
-        $expediente = $this->expedienteRepository->findOneBy(['estudiante'=>$estudianteId, 'id' => $id]);
+        $expediente = $this->expedienteRepository->findOneBy(['estudiante'=>$estudianteId]);
 
         if (!$expediente) {
             throw new NotFoundHttpException('Expediente not found.');
@@ -58,10 +58,10 @@ class ExpedienteController extends AbstractController
         return new Response($this->serializer->serialize($expediente, 'json'), Response::HTTP_CREATED);
     }
 
-    #[Route('/estudiante/{estudianteId}/expediente/{id}/update', methods: ['PUT'], name: 'app_expediente_update')]
-    public function update(int $estudianteId, int $id, Request $request): Response
+    #[Route('/estudiante/{estudianteId}/expediente/update', methods: ['PUT'], name: 'app_expediente_update')]
+    public function update(int $estudianteId, Request $request): Response
     {
-        $expediente = $this->expedienteRepository->findOneBy(['estudiante' => $estudianteId, 'id' => $id]);
+        $expediente = $this->expedienteRepository->findOneBy(['estudiante' => $estudianteId]);
 
         //deserializacion de datos
         $context = new DeserializationContext();

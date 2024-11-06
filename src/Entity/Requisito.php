@@ -22,10 +22,6 @@ class Requisito
     #[ORM\Column(length: 255)]
     private ?string $descripcion = null;
 
-    #[Exclude()]
-    #[ORM\OneToMany(mappedBy: 'requisito', targetEntity: ExpedienteItem::class)]
-    private Collection $expedienteItems;
-
     /**
      * @var Collection<int, GradoEscolarRequisito>
      */
@@ -35,7 +31,6 @@ class Requisito
 
     public function __construct()
     {
-        $this->expedienteItems = new ArrayCollection();
         $this->gradoEscolarRequisitos = new ArrayCollection();
     }
 
@@ -52,36 +47,6 @@ class Requisito
     public function setDescripcion(string $descripcion): static
     {
         $this->descripcion = $descripcion;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, ExpedienteItem>
-     */
-    public function getExpedienteItems(): Collection
-    {
-        return $this->expedienteItems;
-    }
-
-    public function addExpedienteItem(ExpedienteItem $expedienteItem): static
-    {
-        if (!$this->expedienteItems->contains($expedienteItem)) {
-            $this->expedienteItems->add($expedienteItem);
-            $expedienteItem->setRequisito($this);
-        }
-
-        return $this;
-    }
-
-    public function removeExpedienteItem(ExpedienteItem $expedienteItem): static
-    {
-        if ($this->expedienteItems->removeElement($expedienteItem)) {
-            // set the owning side to null (unless already changed)
-            if ($expedienteItem->getRequisito() === $this) {
-                $expedienteItem->setRequisito(null);
-            }
-        }
 
         return $this;
     }
