@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Matricula;
+use App\Repository\EstudianteRepresentanteRepository;
 use App\Repository\MatriculaRepository;
-use App\Service\PDFService;
 use App\Service\ReportService;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,12 +12,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializerInterface;
 use JMS\Serializer\DeserializationContext;
 use Knp\Component\Pager\PaginatorInterface;
+
 
 #[Route('api')]
 class MatriculaController extends AbstractController
@@ -28,8 +29,8 @@ class MatriculaController extends AbstractController
         private PaginatorInterface $paginator,
         private EntityManagerInterface $entityManager,
         private MatriculaRepository $matriculaRepository,
-        private PDFService $pdfService,
         private ReportService $reportService,
+        private EstudianteRepresentanteRepository $estudianteRepresentanteRepository,
     ){
     }
     
@@ -40,7 +41,7 @@ class MatriculaController extends AbstractController
         $gradoEscolarId = $request->query->get('grado_escolar');
         $searchTerm = $request->query->get('search_term');
         
-         $query = $this->matriculaRepository->findAllQuery4($gradoEscolarId, $periodoLectivoId, $searchTerm);
+        $query = $this->matriculaRepository->findAllQuery4($gradoEscolarId, $periodoLectivoId, $searchTerm);
         
         $pagination = $this->paginator->paginate(
             $query, /* query NOT result */
@@ -57,7 +58,7 @@ class MatriculaController extends AbstractController
         $matricula = $this->matriculaRepository->find($id);
 
         if(!$matricula){
-            throw new NotFoundHttpException('No existe la matricula');
+            throw new BadRequestHttpException('No existe la matricula.');
         }
 
         return new Response($this->serializer->serialize($matricula, 'json'), Response::HTTP_OK);
@@ -72,10 +73,21 @@ class MatriculaController extends AbstractController
         $matricula->setFecha(new \DateTime());
 
         $errors = $this->validator->validate($matricula);
-        
-        if(count($errors) > 0){
-            throw new InvalidArgumentException('hola soy jose error');
+
+        if (count($errors) > 0) {
+            $errorMessages = [];
+            foreach ($errors as $error) {
+                $errorMessages[] = $error->getMessage();
+            }
+
+            throw new BadRequestHttpException(implode(' ', $errorMessages));
         }
+        
+        //Comprobar si el periodo lectivo está activado para matricula
+        if(!$matricula->getPeriodoLectivo()->isHabilitadoParaMatricula()){
+            throw new BadRequestHttpException('El periodo lectivo que seleccionó no está habilitado para matrícula.');
+        }
+        
         $this->entityManager->persist($matricula);
         $this->entityManager->flush(); 
         
@@ -93,10 +105,16 @@ class MatriculaController extends AbstractController
         $updatedMatricula = $this->serializer->deserialize($request->getContent(), Matricula::class, 'json', $context);
 
         $errors = $this->validator->validate($updatedMatricula);
-        
-        if(count($errors) > 0){
-            throw new InvalidArgumentException((string) $errors);
+
+        if (count($errors) > 0) {
+            $errorMessages = [];
+            foreach ($errors as $error) {
+                $errorMessages[] = $error->getMessage();
+            }
+
+            throw new BadRequestHttpException(implode(' ', $errorMessages));
         }
+
         $this->entityManager->persist($updatedMatricula);
         $this->entityManager->flush(); 
         
@@ -107,13 +125,35 @@ class MatriculaController extends AbstractController
     public function pdfCetificadoMatricula(int $id): Response
     {
         $matricula = $this->matriculaRepository->find($id);
+
+        if(!$matricula){
+            throw new BadRequestHttpException('No existe la matricula.');
+        }
+
         // Generar el PDF
         $pdf = $this->reportService->printCertifidadoMatricula($matricula);
-      
-        
-        $pdfContent = $pdf->Output('', 'S'); // 'S' devuelve el PDF como cadena
-        
+        // 'S' devuelve el PDF como cadena
+        $pdfContent = $pdf->Output('', 'S');
+        // Devolver el PDF como respuesta
+        return new Response($pdfContent, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="document.pdf"'
+        ]);
+    }
 
+    #[Route('/matricula/pdf-certificado-matricula-asistencia/{id}', name: 'app_matricula_pdf_certificado_matricula_asistencia', methods: ['GET'], defaults: ["_format"=>"json"])]
+    public function pdfCetificadoMatriculaAsistencia(int $id): Response
+    {
+        $matricula = $this->matriculaRepository->find($id);
+
+        if(!$matricula){
+            throw new BadRequestHttpException('No existe la matricula.');
+        }
+
+        // Generar el PDF
+        $pdf = $this->reportService->printCertifidadoMatriculaAsistencia($matricula);
+        // 'S' devuelve el PDF como cadena
+        $pdfContent = $pdf->Output('', 'S');
         // Devolver el PDF como respuesta
         return new Response($pdfContent, 200, [
             'Content-Type' => 'application/pdf',
@@ -125,13 +165,19 @@ class MatriculaController extends AbstractController
     public function pdfCartaAutorizacion(int $id): Response
     {
         $matricula = $this->matriculaRepository->find($id);
-        // Generar el PDF
-        $pdf = $this->reportService->printCartaAutorizacion($matricula);
-      
-        
-        $pdfContent = $pdf->Output('', 'S'); // 'S' devuelve el PDF como cadena
-        
+        if(!$matricula){
+            throw new BadRequestHttpException('No existe la matricula.');
+        }
 
+        $estudianteRepresentantePrincipal = $this->estudianteRepresentanteRepository->findByEstudiantePrincipalOne($matricula->getEstudiante()->getId());
+        if(!$estudianteRepresentantePrincipal){
+            throw new BadRequestHttpException('No existe el representante principal.');
+        }
+
+        // Generar el PDF
+        $pdf = $this->reportService->printCartaAutorizacion($matricula, $estudianteRepresentantePrincipal);
+        // 'S' devuelve el PDF como cadena
+        $pdfContent = $pdf->Output('', 'S');
         // Devolver el PDF como respuesta
         return new Response($pdfContent, 200, [
             'Content-Type' => 'application/pdf',
@@ -143,13 +189,19 @@ class MatriculaController extends AbstractController
     public function pdfActaCompromiso(int $id): Response
     {
         $matricula = $this->matriculaRepository->find($id);
-        // Generar el PDF
-        $pdf = $this->reportService->printActaCompromiso($matricula);
-      
-        
-        $pdfContent = $pdf->Output('', 'S'); // 'S' devuelve el PDF como cadena
-        
+        if(!$matricula){
+            throw new BadRequestHttpException('No existe la matricula.');
+        }
 
+        $estudianteRepresentantePrincipal = $this->estudianteRepresentanteRepository->findByEstudiantePrincipalOne($matricula->getEstudiante()->getId());
+        if(!$estudianteRepresentantePrincipal){
+            throw new BadRequestHttpException('No existe el representante principal.');
+        }
+
+        // Generar el PDF
+        $pdf = $this->reportService->printActaCompromiso($matricula, $estudianteRepresentantePrincipal);
+        // 'S' devuelve el PDF como cadena
+        $pdfContent = $pdf->Output('', 'S');
         // Devolver el PDF como respuesta
         return new Response($pdfContent, 200, [
             'Content-Type' => 'application/pdf',

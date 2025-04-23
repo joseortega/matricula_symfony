@@ -8,13 +8,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use JMS\Serializer\SerializerInterface;
 use JMS\Serializer\DeserializationContext;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\HttpClient\Exception\InvalidArgumentException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 #[Route('api')]
 class EstudianteController extends AbstractController
@@ -48,9 +47,14 @@ class EstudianteController extends AbstractController
         $estudiante = $this->serializer->deserialize($request->getContent(), Estudiante::class, 'json');
         
         $errors = $this->validator->validate($estudiante);
-        
+
         if (count($errors) > 0) {
-            throw new InvalidArgumentException((string) $errors);
+            $errorMessages = [];
+            foreach ($errors as $error) {
+                $errorMessages[] = $error->getMessage();
+            }
+
+            throw new BadRequestHttpException(implode(' ', $errorMessages));
         }
         
         $this->entityManager->persist($estudiante);
@@ -70,9 +74,14 @@ class EstudianteController extends AbstractController
         $updatedEstudiante = $this->serializer->deserialize($request->getContent(), Estudiante::class, 'json', $context);
         
         $errors = $this->validator->validate($updatedEstudiante);
-       
+
         if (count($errors) > 0) {
-            throw new InvalidArgumentException((string) $errors);
+            $errorMessages = [];
+            foreach ($errors as $error) {
+                $errorMessages[] = $error->getMessage();
+            }
+
+            throw new BadRequestHttpException(implode(' ', $errorMessages));
         }
         
         $this->entityManager->persist($updatedEstudiante);
@@ -94,7 +103,7 @@ class EstudianteController extends AbstractController
         $estudiante = $this->estudianteRepository->find($id);
 
         if(!$estudiante){
-            throw new NotFoundHttpException('Estudiante no existe');
+            throw new BadRequestHttpException('Estudiante no existe');
         }
         return new Response($this->serializer->serialize($estudiante, 'json'), Response::HTTP_OK);
     }

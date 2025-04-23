@@ -7,15 +7,13 @@ use App\Repository\EstudianteRepository;
 use App\Entity\EstudianteRepresentante;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use JMS\Serializer\SerializerInterface;
 use JMS\Serializer\DeserializationContext;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\HttpClient\Exception\InvalidArgumentException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 #[Route('api')]
 class EstudianteRepresentanteController extends AbstractController
@@ -46,7 +44,7 @@ class EstudianteRepresentanteController extends AbstractController
         ]);     
         
          if(!$estudianteRepresentante){
-            throw new NotFoundHttpException('EstudianteRepresentante no existe');
+            throw new BadRequestHttpException('No existe representante principal, registre');
          }
         
         return new Response($this->serializer->serialize($estudianteRepresentante, 'json'), Response::HTTP_OK);
@@ -89,7 +87,12 @@ class EstudianteRepresentanteController extends AbstractController
         $errors = $this->validator->validate($estudianteRepresentante);
 
         if (count($errors) > 0) {
-            throw new InvalidArgumentException((string) $errors);
+            $errorMessages = [];
+            foreach ($errors as $error) {
+                $errorMessages[] = $error->getMessage();
+            }
+
+            throw new BadRequestHttpException(implode(' ', $errorMessages));
         }
         
         if($estudianteRepresentante->isEsPrincipal()===false){
@@ -100,7 +103,7 @@ class EstudianteRepresentanteController extends AbstractController
             ]);
 
             if(!$representantePrincipalExistente){
-                throw new InvalidArgumentException('El estudiante debe tener un representante principal');
+                throw new BadRequestHttpException('El estudiante debe tener un representante principal');
             }
         }else{
             $this->preCreateOrUpdateChangue($estudianteRepresentante);
@@ -125,7 +128,7 @@ class EstudianteRepresentanteController extends AbstractController
           no se puede setear el representante principal a false, motivos que no quedaria un representante principal*/
         $data = json_decode($request->getContent());
         if($estudianteRepresentante->isEsPrincipal() && $data->es_principal===false){
-            throw new InvalidArgumentException('El estudiante debe tener un representante principal');
+            throw new BadRequestHttpException('El estudiante debe tener un representante principal');
         }
         
         //deserializacion de datos
@@ -136,9 +139,14 @@ class EstudianteRepresentanteController extends AbstractController
         
         //Validación del objeto
         $errors = $this->validator->validate($updatedEstudianteRepresentante);
-        
+
         if (count($errors) > 0) {
-            throw new InvalidArgumentException((string) $errors);
+            $errorMessages = [];
+            foreach ($errors as $error) {
+                $errorMessages[] = $error->getMessage();
+            }
+
+            throw new BadRequestHttpException(implode(' ', $errorMessages));
         }
         
         if($estudianteRepresentante->isEsPrincipal()===true){
@@ -162,11 +170,11 @@ class EstudianteRepresentanteController extends AbstractController
         );
 
         if(!$estudianteRepresentante){
-            throw new NotFoundHttpException('EstudianteRepresentante no existe');
+            throw new BadRequestHttpException('EstudianteRepresentante no existe');
         }
 
         if($estudianteRepresentante->isEsPrincipal()){
-            throw new NotFoundHttpException('No puede eliminar el representante principal');
+            throw new BadRequestHttpException('No puede eliminar el representante principal');
         }
 
         $this->entityManager->remove($estudianteRepresentante);

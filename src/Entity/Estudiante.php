@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\EstudianteRepository;
-use App\Repository\EstudianteRepresentanteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -33,7 +32,7 @@ class Estudiante
     private ?string $nombres = null;
     
     #[Assert\NotBlank]
-    #[Assert\Choice(["Hombre", "Mujer"])]
+    #[Assert\Choice(["HOMBRE", "MUJER"])]
     #[ORM\Column(length: 255)]
     private ?string $sexo = null;
     
@@ -46,23 +45,22 @@ class Estudiante
     #[ORM\ManyToOne(inversedBy: 'estudiantes')]
     private ?Nacionalidad $nacionalidad = null;
     
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $direccion = null;
+    
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $telefono = null;
     
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $correo = null;
-
-    #[ORM\OneToOne(mappedBy: 'estudiante')]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?Expediente $expediente = null;
-
+    
     #[ORM\Column]
-    private ?bool $tieneDiscapacidad = null;
-
+    private ?bool $tieneDiscapacidad = false;
+    
     #[ORM\ManyToOne(inversedBy: 'estudiantes')]
     #[ORM\JoinColumn(nullable: true)]
     private ?UniformeTalla $uniformeTalla = null;
-    
+
     #[Exclude()]
     #[ORM\OneToMany(mappedBy: 'estudiante', targetEntity: Matricula::class)]
     private Collection $matriculas;
@@ -74,8 +72,10 @@ class Estudiante
     #[ORM\OneToMany(mappedBy: 'estudiante', targetEntity: EstudianteRepresentante::class, orphanRemoval: true)]
     private Collection $estudianteRepresentantes;
 
-    #[ORM\Column(length: 255)]
-    private ?string $lugarResidencia = null;
+    #[Exclude()]
+    #[ORM\OneToOne(mappedBy: 'estudiante', cascade: ['persist', 'remove'])]
+    private ?Expediente $expediente = null;
+
 
     public function __construct()
     {
@@ -135,30 +135,6 @@ class Estudiante
 
         return $this;
     }
-
-    public function getCorreo(): ?string
-    {
-        return $this->correo;
-    }
-
-    public function setCorreo(string $correo): static
-    {
-        $this->correo = $correo;
-
-        return $this;
-    }
-
-    public function getTelefono(): ?string
-    {
-        return $this->telefono;
-    }
-
-    public function setTelefono(?string $telefono): static
-    {
-        $this->telefono = $telefono;
-
-        return $this;
-    }
     
     public function getFechaNacimiento(): ?\DateTimeInterface
     {
@@ -172,19 +148,78 @@ class Estudiante
         return $this;
     }
     
-    public function getFechaUltimaMatricula(): ?\DateTimeInterface
+    public function getNacionalidad(): ?Nacionalidad
     {
-        return $this->fechaUltimaMatricula;
+        return $this->nacionalidad;
     }
 
-    public function setFechaUltimaMatricula(\DateTimeInterface $fechaUltimaMatricula): static
+    public function setNacionalidad(?Nacionalidad $nacionalidad): static
     {
-        $this->fechaUltimaMatricula = $fechaUltimaMatricula;
+        $this->nacionalidad = $nacionalidad;
+
+        return $this;
+    }
+    
+    public function getDireccion(): ?string
+    {
+        return $this->direccion;
+    }
+
+    public function setDireccion(?string $direccion): static
+    {
+        $this->direccion = $direccion;
+
+        return $this;
+    }
+    
+    public function getTelefono(): ?string
+    {
+        return $this->telefono;
+    }
+
+    public function setTelefono(?string $telefono): static
+    {
+        $this->telefono = $telefono;
 
         return $this;
     }
 
+    public function getCorreo(): ?string
+    {
+        return $this->correo;
+    }
 
+    public function setCorreo(string $correo): static
+    {
+        $this->correo = $correo;
+
+        return $this;
+    }
+    
+    public function isTieneDiscapacidad(): ?bool
+    {
+        return $this->tieneDiscapacidad;
+    }
+
+    public function setTieneDiscapacidad(bool $tieneDiscapacidad): static
+    {
+        $this->tieneDiscapacidad = $tieneDiscapacidad;
+
+        return $this;
+    }
+    
+    public function getUniformeTalla(): ?UniformeTalla
+    {
+        return $this->uniformeTalla;
+    }
+
+    public function setUniformeTalla(?UniformeTalla $uniformeTalla): static
+    {
+        $this->uniformeTalla = $uniformeTalla;
+
+        return $this;
+    }
+    
     /**
      * @return Collection<int, Matricula>
      */
@@ -211,35 +246,6 @@ class Estudiante
                 $matricula->setEstudiante(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getExpediente(): ?Expediente
-    {
-        return $this->expediente;
-    }
-
-    public function setExpediente(Expediente $expediente): static
-    {
-        // set the owning side of the relation if necessary
-        if ($expediente->getEstudiante() !== $this) {
-            $expediente->setEstudiante($this);
-        }
-
-        $this->expediente = $expediente;
-
-        return $this;
-    }
-
-    public function getNacionalidad(): ?Nacionalidad
-    {
-        return $this->nacionalidad;
-    }
-
-    public function setNacionalidad(?Nacionalidad $nacionalidad): static
-    {
-        $this->nacionalidad = $nacionalidad;
 
         return $this;
     }
@@ -274,44 +280,25 @@ class Estudiante
         return $this;
     }
 
-    public function isTieneDiscapacidad(): ?bool
-    {
-        return $this->tieneDiscapacidad;
-    }
-
-    public function setTieneDiscapacidad(bool $tieneDiscapacidad): static
-    {
-        $this->tieneDiscapacidad = $tieneDiscapacidad;
-
-        return $this;
-    }
-
-    public function getUniformeTalla(): ?UniformeTalla
-    {
-        return $this->uniformeTalla;
-    }
-
-    public function setUniformeTalla(?UniformeTalla $uniformeTalla): static
-    {
-        $this->uniformeTalla = $uniformeTalla;
-
-        return $this;
-    }
-
-    public function getLugarResidencia(): ?string
-    {
-        return $this->lugarResidencia;
-    }
-
-    public function setLugarResidencia(string $lugarResidencia): static
-    {
-        $this->lugarResidencia = $lugarResidencia;
-
-        return $this;
-    }
-
     public function __toString() {
         return  $this->getApellidos().' '.$this->getNombres();
+    }
+
+    public function getExpediente(): ?Expediente
+    {
+        return $this->expediente;
+    }
+
+    public function setExpediente(Expediente $expediente): static
+    {
+        // set the owning side of the relation if necessary
+        if ($expediente->getEstudiante() !== $this) {
+            $expediente->setEstudiante($this);
+        }
+
+        $this->expediente = $expediente;
+
+        return $this;
     }
 
 }

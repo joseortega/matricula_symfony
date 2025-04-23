@@ -37,6 +37,9 @@ class PeriodoLectivo
     #[ORM\OneToMany(mappedBy: 'periodoLectivo', targetEntity: Matricula::class)]
     private Collection $matriculas;
 
+    #[ORM\Column]
+    private ?bool $habilitadoParaMatricula = false;
+
     public function __construct()
     {
         $this->matriculas = new ArrayCollection();
@@ -111,5 +114,17 @@ class PeriodoLectivo
     
     public function __toString() {
         return $this->getDescripcion();
+    }
+
+    public function isHabilitadoParaMatricula(): ?bool
+    {
+        return $this->habilitadoParaMatricula;
+    }
+
+    public function setHabilitadoParaMatricula(bool $habilitadoParaMatricula): static
+    {
+        $this->habilitadoParaMatricula = $habilitadoParaMatricula;
+
+        return $this;
     }
 }

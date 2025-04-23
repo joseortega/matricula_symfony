@@ -47,6 +47,18 @@
             "./migrations/.gitignore"
         ]
     },
+    "friendsofsymfony/rest-bundle": {
+        "version": "3.8",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "3.0",
+            "ref": "3762cc4e4f2d6faabeca5a151b41c8c791bd96e5"
+        },
+        "files": [
+            "./config/packages/fos_rest.yaml"
+        ]
+    },
     "jms/serializer-bundle": {
         "version": "5.4",
         "recipe": {
@@ -58,6 +70,18 @@
     },
     "knplabs/knp-paginator-bundle": {
         "version": "v6.3.0"
+    },
+    "lexik/jwt-authentication-bundle": {
+        "version": "3.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.5",
+            "ref": "e9481b233a11ef7e15fe055a2b21fd3ac1aa2bb7"
+        },
+        "files": [
+            "./config/packages/lexik_jwt_authentication.yaml"
+        ]
     },
     "nelmio/cors-bundle": {
         "version": "2.4",
@@ -119,6 +143,18 @@
         },
         "files": [
             "./.env"
+        ]
+    },
+    "symfony/form": {
+        "version": "7.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "7.2",
+            "ref": "7d86a6723f4a623f59e2bf966b6aad2fc461d36b"
+        },
+        "files": [
+            "./config/packages/csrf.yaml"
         ]
     },
     "symfony/framework-bundle": {

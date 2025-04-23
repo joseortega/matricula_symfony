@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use JMS\Serializer\SerializerInterface;
 use JMS\Serializer\DeserializationContext;
@@ -55,7 +56,7 @@ class RepresentanteController extends AbstractController
         $representante = $this->representanteRepository->find($id);
 
         if (!$representante) {
-            throw new NotFoundHttpException();
+            throw new BadRequestHttpException('No existe el o la representante.');
         }
 
         return new Response($this->serializer->serialize($representante, 'json'));
@@ -67,10 +68,16 @@ class RepresentanteController extends AbstractController
         $representante = $this->serializer->deserialize($request->getContent(), Representante::class, 'json');
 
         $errors = $this->validator->validate($representante);
-        
-        if(count($errors) > 0){
-            throw new NotFoundHttpException((string) $errors);
+
+        if (count($errors) > 0) {
+            $errorMessages = [];
+            foreach ($errors as $error) {
+                $errorMessages[] = $error->getMessage();
+            }
+
+            throw new BadRequestHttpException(implode(' ', $errorMessages));
         }
+
         $this->entityManager->persist($representante);
         $this->entityManager->flush();
         
@@ -88,9 +95,14 @@ class RepresentanteController extends AbstractController
         $updatedRepresentante = $this->serializer->deserialize($request->getContent(), Representante::class, 'json', $context);
         
          $errors = $this->validator->validate($updatedRepresentante);
-         
-         if(count($errors) > 0){
-            throw new NotFoundHttpException((string) $errors);
+
+        if (count($errors) > 0) {
+            $errorMessages = [];
+            foreach ($errors as $error) {
+                $errorMessages[] = $error->getMessage();
+            }
+
+            throw new BadRequestHttpException(implode(' ', $errorMessages));
         }
         
         $this->entityManager->persist($updatedRepresentante);

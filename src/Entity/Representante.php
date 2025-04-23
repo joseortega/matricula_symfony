@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\RepresentanteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 use JMS\Serializer\Annotation\Type;
@@ -31,9 +32,12 @@ class Representante
     #[ORM\Column(length: 255)]
     private ?string $nombres = null;
     
-    #[Assert\NotBlank]
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $lugarResidencia = null;
+    #[Type("DateTime<'Y-m-d'>")]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $fechaNacimiento = null;
+    
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $direccion = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $telefono = null;
@@ -48,6 +52,7 @@ class Representante
     #[ORM\OneToMany(mappedBy: 'representante', targetEntity: EstudianteRepresentante::class, orphanRemoval: true)]
     private Collection $estudianteRepresentantes;
 
+   
     public function __construct()
     {
         $this->estudiantes = new ArrayCollection();
@@ -94,15 +99,39 @@ class Representante
 
         return $this;
     }
-
-    public function getLugarResidencia(): ?string
+    
+    public function getFechaNacimiento(): ?\DateTimeInterface
     {
-        return $this->lugarResidencia;
+        return $this->fechaNacimiento;
     }
 
-    public function setLugarResidencia(?string $lugarResidencia): static
+    public function setFechaNacimiento(?\DateTimeInterface $fechaNacimiento): static
     {
-        $this->lugarResidencia = $lugarResidencia;
+        $this->fechaNacimiento = $fechaNacimiento;
+
+        return $this;
+    }
+
+    public function getDireccion(): ?string
+    {
+        return $this->direccion;
+    }
+
+    public function setDireccion(string $direccion): static
+    {
+        $this->direccion = $direccion;
+
+        return $this;
+    }
+    
+    public function getTelefono(): ?string
+    {
+        return $this->telefono;
+    }
+
+    public function setTelefono(?string $telefono): static
+    {
+        $this->telefono = $telefono;
 
         return $this;
     }
@@ -115,18 +144,6 @@ class Representante
     public function setCorreo(?string $correo): static
     {
         $this->correo = $correo;
-
-        return $this;
-    }
-
-    public function getTelefono(): ?string
-    {
-        return $this->telefono;
-    }
-
-    public function setTelefono(?string $telefono): static
-    {
-        $this->telefono = $telefono;
 
         return $this;
     }

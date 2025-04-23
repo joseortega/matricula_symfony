@@ -7,9 +7,16 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 use JMS\Serializer\Annotation\Type;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MatriculaRepository::class)]
+
+#[UniqueEntity(
+    fields: ['estudiante', 'periodoLectivo'],
+    message: 'El estudiante ya ha sido matriculado en el periodo lectivo.',
+    errorPath: 'PeriodoLectivo',
+)]
 class Matricula
 {
     #[ORM\Id]
@@ -52,8 +59,16 @@ class Matricula
     #[ORM\JoinColumn(nullable: false)]
     private ?PeriodoLectivo $periodoLectivo = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $estado = null;
+   /* #[Assert\NotBlank]
+    #[Assert\Choice(["ACTIVO", "PENDIENTE","RETIRADO","ANULADO"])]
+    #[ORM\Column(length: 255)]
+    private ?string $estado = "ACTIVO";*/
+
+    #[ORM\Column]
+    private ?bool $estaActiva = true;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $fechaInactivacion = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $observacion = null;
@@ -147,17 +162,41 @@ class Matricula
         return $this;
     }
 
+    public function isEstaActiva(): ?bool
+    {
+        return $this->estaActiva;
+    }
+
+    public function setEstaActiva(bool $estaActiva): static
+    {
+        $this->estaActiva = $estaActiva;
+
+        return $this;
+    }
+
+    public function getFechaInactivacion(): ?\DateTimeInterface
+    {
+        return $this->fechaInactivacion;
+    }
+
+    public function setFechaInactivacion(?\DateTimeInterface $fechaInactivacion): static
+    {
+        $this->fechaInactivacion = $fechaInactivacion;
+
+        return $this;
+    }
+/*
     public function getEstado(): ?string
     {
         return $this->estado;
     }
 
-    public function setEstado(string $estado): static
+    public function setEstado(?string $estado): static
     {
         $this->estado = $estado;
 
         return $this;
-    }
+    }*/
 
     public function getObservacion(): ?string
     {

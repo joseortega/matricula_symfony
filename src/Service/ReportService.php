@@ -3,9 +3,10 @@
 
 namespace App\Service;
 
+use App\Entity\EstudianteRepresentante;
+use App\Entity\Expediente;
 use App\Service\PDFService;
 use App\Entity\Matricula;
-use App\Repository\EstudianteRepresentanteRepository;
 
 /**
  * Description of Report
@@ -15,8 +16,7 @@ use App\Repository\EstudianteRepresentanteRepository;
 class ReportService {
     //put your code here
     public function __construct(
-            private PDFService $pdfService, 
-            private EstudianteRepresentanteRepository $estudianteRepresentanteRepository ) {
+            private PDFService $pdfService,) {
     }
     
     public function printCertifidadoMatricula(Matricula $matricula) {
@@ -64,8 +64,55 @@ class ReportService {
 
         return $pdf;   
     }
+
+    public function printCertifidadoMatriculaAsistencia(Matricula $matricula) {
+
+        $pdf = $this->pdfService->createPDF();
+
+        $pdf->SetFont('helvetica', 'B', 18); // Fuente, estilo, tamaño
+        $pdf->Cell(0, 20, 'CERTIFICADO DE MATRÍCULA', 0, 1, 'C', 0, '', 0, false, 'T', 'M');
+
+        $parrafo1 ="
+        <p style='text-align: justify; margin: 0;'>
+            El <b>Lic. JOSE MIGUEL YANZA CHACHO</b> con número de cédula N° <b>1400721138</b>, en su rol de RECTOR de la UNIDAD EDUCATIVA HÉROES DEL CENEPA
+        </p>";
+
+        $pdf->SetFont('helvetica', '', 15); // Fuente, estilo, tamaño
+        $pdf->writeHTMLCell(0, 5, '', '', $parrafo1, 0, 1, 0, true, 'J', true);
+
+        $pdf->SetFont('helvetica', 'B', 18); // Fuente, estilo, tamaño
+        $pdf->Cell(0, 20, 'CERTIFICA', 0, 1, 'C', 0, '', 0, false, 'T', 'M');
+
+        $parrafo2 ="
+        <p style='text-align: justify; margin: 0; padding: 0;'>
+            Que el estudiante <b>{$matricula->getEstudiante()}</b>
+            con número de identificación <b>{$matricula->getEstudiante()->getIdentificacion()}</b>,
+            ha sido matriculado en el <b>{$matricula->getGradoEscolar()}</b>,
+            para el año lectivo <b>{$matricula->getPeriodoLectivo()}</b>,
+            y se encuentra asistiendo normalmente a clases hasta la presente fecha.
+        </p>";
+
+        $pdf->SetFont('helvetica', '', 15); // Fuente, estilo, tamaño
+        $pdf->writeHTMLCell(0, 5, '', '', $parrafo2, 0, 1, 0, true, 'J', true);
+
+        $fechaActual = new \DateTime();
+        $fechaString = $fechaActual->format('Y-m-d');
+
+        $pdf->SetFont('helvetica', 'B', 15); // Fuente, estilo, tamaño
+        $pdf->Cell(0, 20, "Fecha de Emisión: {$fechaString}", 0, 1, 'R', 0, '', 0, false, 'T', 'M');
+
+        $pdf->SetFont('helvetica', 'B', 15); // Fuente, estilo, tamaño
+        $pdf->Cell(0, 20, "Atentamente:", 0, 1, 'L', 0, '', 0, false, 'T', 'M');
+
+        $pdf->Cell(0, 30, '', 0, 1, 'C'); // Espacio para la firma
+        $pdf->Line(50, $pdf->GetY(), 160, $pdf->GetY()); // Línea horizontal (ajusta las coordenadas según sea necesario)
+
+        $pdf->Cell(0, 10, 'Rector', 0, 1, 'C');
+
+        return $pdf;
+    }
     
-    public function printCartaAutorizacion(Matricula $matricula) {
+    public function printCartaAutorizacion(Matricula $matricula, EstudianteRepresentante $estudianteRepresentantePrincipal) {
         
         $pdf = $this->pdfService->createPDF();
         
@@ -75,9 +122,7 @@ class ReportService {
 
         $fechaActual = new \DateTime();
         $fechaString = $fechaActual->format('Y-m-d');
-        
-        $estudianteRepresentantePrincipal = $this->estudianteRepresentanteRepository->findByEstudiantePrincipalOne($matricula->getEstudiante()->getId());
-        
+
         $contenido ="
         <p style='text-align: justify; margin: 0; padding: 0;'>
             Yo <b>{$estudianteRepresentantePrincipal->getRepresentante()}</b>
@@ -110,7 +155,7 @@ class ReportService {
         return $pdf;
     }
     
-    public function printActaCompromiso(Matricula $matricula) {
+    public function printActaCompromiso(Matricula $matricula, EstudianteRepresentante $estudianteRepresentantePrincipal) {
         
         $pdf = $this->pdfService->createPDF();
 
@@ -124,8 +169,6 @@ class ReportService {
         
         $fechaActual = new \DateTime();
         $fechaString = $fechaActual->format('Y-m-d');
-        
-        $estudianteRepresentantePrincipal = $this->estudianteRepresentanteRepository->findByEstudiantePrincipalOne($matricula->getEstudiante()->getId());
         
         $contenido ="
         <p style='text-align: justify; margin: 0; padding: 0;'>
@@ -167,5 +210,60 @@ class ReportService {
         $pdf->Cell(0, 5, $estudianteRepresentantePrincipal->getRepresentante()->getIdentificacion(), 0, 1, 'C');
 
         return $pdf;    
+    }
+
+    public function printRetiroExpediente(Expediente $expediente, EstudianteRepresentante $estudianteRepresentantePrincipal) {
+
+        $pdf = $this->pdfService->createPDF();
+
+        $titulo = "
+            <p style='text-align: justify; margin: 0; padding: 0;'>
+                ACTA DE ENTREGA Y RECEPCIÓN DE EXPEDIENTE ACADÉMICO
+            </p>";
+
+        $pdf->SetFont('helvetica', 'B', 18); // Fuente, estilo, tamaño
+        $pdf->writeHTMLCell(0, 20, '', '', $titulo, 0, 1, 0, true, 'C', true);
+
+        $fechaRetiro = $expediente->getFechaRetiro();
+        $año  = $fechaRetiro->format('Y');
+        $mes   = $fechaRetiro->format('m');
+        $dia   = $fechaRetiro->format('d');
+        $hora = $fechaRetiro->format('H:i');
+
+        $contenido ="
+        <p style='text-align: justify; margin: 0;'>
+            En la secretaría de la institución <b> a los {$dia} dias del mes {$mes} del {$año}</b>
+            siendo  <b>{$hora}</b>, el rector de la institución, hace la entrega del expediente académico del <b>estudiante:
+            {$expediente->getEstudiante()}</b> con número de cedula <b>{$expediente->getEstudiante()->getIdentificacion()}</b>
+            a el/la Sr./Sra. <b>{$estudianteRepresentantePrincipal->getRepresentante()}</b>
+            con número de cédula <b>{$estudianteRepresentantePrincipal->getRepresentante()->getIdentificacion()}</b>
+            en calidad de representante autorizado para la recepción del mismo.
+            Para constancia de lo actuado, las partes intervinientes firman el presente documento en señal de conformidad.
+        </p>";
+
+        $pdf->SetFont('helvetica', '', 15); // Fuente, estilo, tamaño
+        $pdf->writeHTMLCell(0, 5, '', '', $contenido, 0, 1, 0, true, 'J', true);
+
+        $fechaActual = new \DateTime();
+        $fechaString = $fechaActual->format('Y-m-d');
+
+        $pdf->SetFont('helvetica', 'B', 15); // Fuente, estilo, tamaño
+        $pdf->Cell(0, 20, "Fecha de Impresión: {$fechaString}", 0, 1, 'R', 0, '', 0, false, 'T', 'M');
+
+        // Espacio para la firma
+        $pdf->Cell(0, 30, '', 0, 1, 'C');
+
+        // Línea horizontal (ajusta las coordenadas según sea necesario)
+        $pdf->Line(50, $pdf->GetY(), 160, $pdf->GetY());
+        $pdf->Cell(0, 10, 'Rector', 0, 1, 'C');
+
+        // Espacio entre firmas
+        $pdf->Cell(0, 30, '', 0, 1, 'C');
+
+        // Línea horizontal (ajusta las coordenadas según sea necesario)
+        $pdf->Line(50, $pdf->GetY(), 160, $pdf->GetY());
+        $pdf->Cell(0, 10, 'Representante', 0, 1, 'C');
+
+        return $pdf;
     }
 }
