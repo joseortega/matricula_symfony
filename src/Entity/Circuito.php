@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ZonaRepository;
+use App\Repository\CircuitoRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ZonaRepository::class)]
-class Zona
+#[ORM\Entity(repositoryClass: CircuitoRepository::class)]
+class Circuito
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,6 +18,10 @@ class Zona
 
     #[ORM\Column(length: 255)]
     private ?string $denominacion = null;
+
+    #[ORM\ManyToOne(inversedBy: 'circuitos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Distrito $distrito = null;
 
     public function getId(): ?int
     {
@@ -44,6 +48,18 @@ class Zona
     public function setDenominacion(string $denominacion): static
     {
         $this->denominacion = $denominacion;
+
+        return $this;
+    }
+
+    public function getDistrito(): ?Distrito
+    {
+        return $this->distrito;
+    }
+
+    public function setDistrito(?Distrito $distrito): static
+    {
+        $this->distrito = $distrito;
 
         return $this;
     }

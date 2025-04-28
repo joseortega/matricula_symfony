@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MatriculaRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 
 #[UniqueEntity(
     fields: ['estudiante', 'periodoLectivo'],
@@ -19,15 +20,34 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 class Matricula
 {
+    public const ESTADO_PREINSCRITO = 'PREINSCRITO';
+    public const ESTADO_MATRICULADO = 'MATRICULADO';
+    public const ESTADO_PENDIENTE = 'PENDIENTE';
+    public const ESTADO_RETIRADO = 'RETIRADO';
+    public const ESTADO_SUSPENDIDO = 'SUSPENDIDO';
+    public const ESTADO_EGRESADO = 'EGRESADO';
+    public const ESTADO_TRASLADADO = 'TRASLADADO';
+
+    public const ESTADO_ANULADO = 'ANULADO';
+    public const ESTADOS = [
+        self::ESTADO_PREINSCRITO,
+        self::ESTADO_MATRICULADO,
+        self::ESTADO_PENDIENTE,
+        self::ESTADO_RETIRADO,
+        self::ESTADO_SUSPENDIDO,
+        self::ESTADO_EGRESADO,
+        self::ESTADO_TRASLADADO,
+        self::ESTADO_ANULADO,
+    ];
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[Assert\NotBlank]
-    #[Type("DateTime<'Y-m-d'>")]
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $fecha = null;
+    #[Type("DateTimeImmutable<'Y-m-d'>")]
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $fecha = null;
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(inversedBy: 'matriculas')]
@@ -59,19 +79,29 @@ class Matricula
     #[ORM\JoinColumn(nullable: false)]
     private ?PeriodoLectivo $periodoLectivo = null;
 
-   /* #[Assert\NotBlank]
-    #[Assert\Choice(["ACTIVO", "PENDIENTE","RETIRADO","ANULADO"])]
+    #[Assert\NotBlank]
+    #[Assert\Choice(self::ESTADOS)]
     #[ORM\Column(length: 255)]
-    private ?string $estado = "ACTIVO";*/
+    private ?string $estado = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $fechaCambioEstado = null;
 
     #[ORM\Column]
-    private ?bool $estaActiva = true;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $fechaInactivacion = null;
+    private ?bool $inscritoEnSistemaPublico = true;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $observacion = null;
+
+    //Campo Temporal para detectar cambios
+    private ?string $estadoAnterior = null;
+
+    public function __construct()
+    {
+        $this->fecha = new \DateTimeImmutable();
+        $this->fechaCambioEstado = new \DateTimeImmutable();
+        $this->estado = self::ESTADO_PREINSCRITO;
+    }
 
     public function getId(): ?int
     {
@@ -162,30 +192,19 @@ class Matricula
         return $this;
     }
 
-    public function isEstaActiva(): ?bool
+    public function isInscritoEnSistemaPublico(): ?bool
     {
-        return $this->estaActiva;
+        return $this->inscritoEnSistemaPublico;
     }
 
-    public function setEstaActiva(bool $estaActiva): static
+    public function setInscritoEnSistemaPublico(bool $inscritoEnSistemaPublico): static
     {
-        $this->estaActiva = $estaActiva;
+        $this->inscritoEnSistemaPublico = $inscritoEnSistemaPublico;
 
         return $this;
     }
 
-    public function getFechaInactivacion(): ?\DateTimeInterface
-    {
-        return $this->fechaInactivacion;
-    }
 
-    public function setFechaInactivacion(?\DateTimeInterface $fechaInactivacion): static
-    {
-        $this->fechaInactivacion = $fechaInactivacion;
-
-        return $this;
-    }
-/*
     public function getEstado(): ?string
     {
         return $this->estado;
@@ -196,7 +215,19 @@ class Matricula
         $this->estado = $estado;
 
         return $this;
-    }*/
+    }
+
+    public function getFechaCambioEstado(): ?\DateTimeInterface
+    {
+        return $this->fechaCambioEstado;
+    }
+
+    public function setFechaCambioEstado(?\DateTimeInterface $fechaCambioEstado): static
+    {
+        $this->fechaCambioEstado = $fechaCambioEstado;
+
+        return $this;
+    }
 
     public function getObservacion(): ?string
     {
@@ -208,5 +239,19 @@ class Matricula
         $this->observacion = $observacion;
 
         return $this;
+    }
+
+    #[ORM\PostLoad]
+    public function saveEstadoAnterior(): void
+    {
+        $this->estadoAnterior = $this->estado;
+    }
+
+    #[ORM\PreUpdate]
+    public function updateFechaCambioEstado(): void
+    {
+        if($this->estado !== $this->estadoAnterior){
+            $this->fechaCambioEstado = new \DateTimeImmutable();
+        }
     }
 }

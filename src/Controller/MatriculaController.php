@@ -19,7 +19,6 @@ use JMS\Serializer\SerializerInterface;
 use JMS\Serializer\DeserializationContext;
 use Knp\Component\Pager\PaginatorInterface;
 
-
 #[Route('api')]
 class MatriculaController extends AbstractController
 {
@@ -69,8 +68,6 @@ class MatriculaController extends AbstractController
     {           
         $matricula = $this->serializer->deserialize($request->getContent(), Matricula::class, 'json');
         dump($matricula);
-        
-        $matricula->setFecha(new \DateTime());
 
         $errors = $this->validator->validate($matricula);
 

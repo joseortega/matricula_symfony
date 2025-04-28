@@ -14,6 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: EstudianteRepository::class)]
 class Estudiante
 {
+    public const SEXO_HOMBRE = 'HOMBRE';
+    public const SEXO_MUJER = 'MUJER';
+
+    public const SEXOS  = [self::SEXO_HOMBRE, self::SEXO_MUJER];
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -32,7 +36,7 @@ class Estudiante
     private ?string $nombres = null;
     
     #[Assert\NotBlank]
-    #[Assert\Choice(["HOMBRE", "MUJER"])]
+    #[Assert\Choice(self::SEXOS)]
     #[ORM\Column(length: 255)]
     private ?string $sexo = null;
     
