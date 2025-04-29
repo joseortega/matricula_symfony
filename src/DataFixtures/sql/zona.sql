@@ -1,2 +1,2 @@
-INSERT INTO zona(id,denominacion) VALUES
-    (1, 'ZONA D06');
+INSERT INTO zona(id, codigo, denominacion) VALUES
+    (1, '6', 'ZONA D06');

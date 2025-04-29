@@ -1,2 +1,2 @@
-INSERT INTO distrito(id, zona_id, denominacion) VALUES
-    (1, 1,'DIRECCIÓN DISTRITAL 14D06 LIMON INDANZA - SANTIAGO - TIWINTZA - EDUCACIÓN');
+INSERT INTO distrito(id, zona_id, codigo, denominacion) VALUES
+    (1, 1,'14D06', 'DIRECCIÓN DISTRITAL 14D06 LIMON INDANZA - SANTIAGO - TIWINTZA - EDUCACIÓN');
