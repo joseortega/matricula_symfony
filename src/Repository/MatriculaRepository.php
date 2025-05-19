@@ -45,57 +45,34 @@ class MatriculaRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-public function findAllQuery($filter): array{
-        $qb = $this->createQueryBuilder('m')
-                ->innerJoin('m.estudiante', 'e')
-           ->orderBy('m.fecha', 'ASC')
-            ->getQuery();
-
-        return $qb->execute();
-    }
-    
-    public function findAllQuery2($filter): array {
-        $entityManager = $this->getEntityManager();
-        
-        $query = $entityManager->createQuery("SELECT m FROM App\Entity\Matricula  m INNER JOIN m.estudiante e");
-        $query->setMaxResults(5);
-        
-        return $query->execute();
-    }
-    
-    public function findAllQuery3($gradoEscolarId = null, $periodoLectivoId=null,  $searchTerm = '')
+    public function findAllQuery(
+        $periodoLectivoId = null,
+        $gradoEscolarId = null,
+        $paraleloId = null,
+        $estado = '',
+        $searchTerm = '')
     {
-        $query = $this->getEntityManager()->createQuery(
-            'SELECT m
-            FROM App\Entity\Matricula m
-            JOIN m.estudiante e
-            WHERE m.gradoEscolar = :grado_escolar
-            AND m.periodoLectivo = :periodo_lectivo
-            AND (e.nombres LIKE :search OR e.apellidos LIKE :search OR e.identificacion LIKE :search)'
-        )
-                
-        ->setParameter('grado_escolar', $gradoEscolarId)
-        ->setParameter('periodo_lectivo', $periodoLectivoId)
-        ->setParameter('search', '%' . $searchTerm . '%');
-
-        return $query->execute();
-    }
-    
-    public function findAllQuery4($gradoEscolarId = null, $periodoLectivoId = null, $searchTerm = '')
-    {
-        // Obtén el EntityManager y crea un QueryBuilder para la entidad 'Matricula'
         $qb = $this->createQueryBuilder('m')
             ->innerJoin('m.estudiante', 'e');
-
-        // Agrega condiciones opcionalmente basadas en la presencia de los parámetros
-        if ($gradoEscolarId !== null) {
-            $qb->andWhere('m.gradoEscolar = :grado_escolar')
-               ->setParameter('grado_escolar', $gradoEscolarId);
-        }
 
         if ($periodoLectivoId !== null) {
             $qb->andWhere('m.periodoLectivo = :periodo_lectivo')
                ->setParameter('periodo_lectivo', $periodoLectivoId);
+        }
+
+        if ($gradoEscolarId !== null) {
+            $qb->andWhere('m.gradoEscolar = :grado_escolar')
+                ->setParameter('grado_escolar', $gradoEscolarId);
+        }
+
+        if ($paraleloId !== null) {
+            $qb->andWhere('m.paralelo = :paralelo')
+                ->setParameter('paralelo', $paraleloId);
+        }
+
+        if (!empty($estado)) {
+            $qb->andWhere('m.estado = :estado')
+                ->setParameter('estado', $estado);
         }
 
         if (!empty($searchTerm)) {
@@ -103,7 +80,7 @@ public function findAllQuery($filter): array{
                ->setParameter('search_term', '%' . $searchTerm . '%');
         }
 
-        // Obtén el Query a partir del QueryBuilder y ejecuta la consulta
-        return $qb->getQuery()->execute();
+        // Obtén el Query a partir del QueryBuilder
+        return $qb->getQuery();
     }
 }

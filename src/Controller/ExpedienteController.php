@@ -133,6 +133,11 @@ class ExpedienteController extends AbstractController
             throw new BadRequestHttpException('EL estudiante aún no tiene el expediente');
         }
 
+        $estudianteRepresentantePrincipal = $this->estudianteRepresentanteRepository->findByEstudiantePrincipalOne($expediente->getEstudiante()->getId());
+        if (!$estudianteRepresentantePrincipal) {
+            throw new BadRequestHttpException('Registre el representante principal, para retirar el expediente');
+        }
+
         $expediente->setFechaRetiro(new \DateTime());
         $expediente->setEstaRetirado(true);
         $this->entityManager->persist($expediente);

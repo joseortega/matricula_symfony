@@ -284,10 +284,6 @@ class Estudiante
         return $this;
     }
 
-    public function __toString() {
-        return  $this->getApellidos().' '.$this->getNombres();
-    }
-
     public function getExpediente(): ?Expediente
     {
         return $this->expediente;
@@ -303,6 +299,10 @@ class Estudiante
         $this->expediente = $expediente;
 
         return $this;
+    }
+
+    public function __toString() {
+        return  $this->getApellidos().' '.$this->getNombres();
     }
 
 }

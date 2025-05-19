@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Matricula;
 use App\Repository\EstudianteRepresentanteRepository;
+use App\Repository\GradoEscolarRepository;
 use App\Repository\MatriculaRepository;
+use App\Repository\ParaleloRepository;
+use App\Repository\PeriodoLectivoRepository;
 use App\Service\ReportService;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,6 +18,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query;
 use JMS\Serializer\SerializerInterface;
 use JMS\Serializer\DeserializationContext;
 use Knp\Component\Pager\PaginatorInterface;
@@ -30,17 +34,16 @@ class MatriculaController extends AbstractController
         private MatriculaRepository $matriculaRepository,
         private ReportService $reportService,
         private EstudianteRepresentanteRepository $estudianteRepresentanteRepository,
+        private PeriodoLectivoRepository $periodoLectivoRepository,
+        private GradoEscolarRepository $gradoEscolarRepository,
+        private ParaleloRepository $paraleloRepository,
     ){
     }
     
     #[Route('/matricula', name: 'app_matricula', methods: ['GET'], defaults: ["_format"=>"json"])]
     public function index(Request $request): Response
     {
-        $periodoLectivoId = $request->query->get('periodo_lectivo');
-        $gradoEscolarId = $request->query->get('grado_escolar');
-        $searchTerm = $request->query->get('search_term');
-        
-        $query = $this->matriculaRepository->findAllQuery4($gradoEscolarId, $periodoLectivoId, $searchTerm);
+        $query = $this->getQuerySearch($request);
         
         $pagination = $this->paginator->paginate(
             $query, /* query NOT result */
@@ -67,7 +70,6 @@ class MatriculaController extends AbstractController
     public function create(Request $request): Response
     {           
         $matricula = $this->serializer->deserialize($request->getContent(), Matricula::class, 'json');
-        dump($matricula);
 
         $errors = $this->validator->validate($matricula);
 
@@ -204,5 +206,82 @@ class MatriculaController extends AbstractController
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="document.pdf"'
         ]);
+    }
+
+    #[Route('/pdf-matricula-list', name: 'app_matricula_pdf_matricula_list', methods: ['GET'], defaults: ["_format"=>"json"])]
+    public function pdfFilterList(Request $request): Response
+    {
+        $periodoLectivoId = $request->query->get('periodo_lectivo');
+        $gradoEscolarId = $request->query->get('grado_escolar');
+        $paraleloId = $request->query->get('paralelo');
+        $estado = $request->query->get('estado');
+        $searchTerm = $request->query->get('search_term');
+
+        $periodoFilter = "Todos";
+        if($periodoLectivoId){
+            $periodoLectivo = $this->periodoLectivoRepository->find($periodoLectivoId);
+            $periodoFilter = $periodoLectivo ? $periodoLectivo->getDescripcion() : "No Encontrado";
+        }
+
+        $gradoEscolarFilter = "Todos";
+        if($gradoEscolarId){
+            $gradoEscolar = $this->gradoEscolarRepository->find($gradoEscolarId);
+            $gradoEscolarFilter = $gradoEscolar ? $gradoEscolar->getDescripcion(): "No Encontrado";
+        }
+
+        $paraleloFilter = "Todos";
+        if($paraleloId){
+            $paralelo = $this->paraleloRepository->find($paraleloId);
+            $paraleloFilter = $paraleloId ? $paralelo->getDescripcion(): "No Encontrado";
+        }
+
+        $estadoFilter = $estado ?: "Todos";
+
+        $searchFilter = $searchTerm ?: "Ninguno";
+
+
+        $query = $this->matriculaRepository->findAllQuery(
+            $periodoLectivoId,
+            $gradoEscolarId,
+            $paraleloId,
+            $estado,
+            $searchTerm
+        );
+
+        // Generar el PDF
+        $pdf = $this->reportService->printMatriculaList(
+            $periodoFilter,
+            $gradoEscolarFilter,
+            $paraleloFilter,
+            $estadoFilter,
+            $searchFilter,
+            $query->getResult()
+        );
+        // 'S' devuelve el PDF como cadena
+        $pdfContent = $pdf->Output('', 'S');
+        // Devolver el PDF como respuesta
+        return new Response($pdfContent, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="document.pdf"'
+        ]);
+    }
+
+    private function getQuerySearch(Request $request): Query
+    {
+        $periodoLectivoId = $request->query->get('periodo_lectivo');
+        $gradoEscolarId = $request->query->get('grado_escolar');
+        $paraleloId = $request->query->get('paralelo');
+        $estado = $request->query->get('estado');
+        $searchTerm = $request->query->get('search_term');
+
+        $query = $this->matriculaRepository->findAllQuery(
+            $periodoLectivoId,
+            $gradoEscolarId,
+            $paraleloId,
+            $estado,
+            $searchTerm
+        );
+
+        return $query;
     }
 }

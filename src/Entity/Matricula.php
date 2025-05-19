@@ -20,8 +20,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 class Matricula
 {
-    public const ESTADO_PREINSCRITO = 'PREINSCRITO';
     public const ESTADO_MATRICULADO = 'MATRICULADO';
+    public const ESTADO_PREINSCRITO = 'PREINSCRITO';
     public const ESTADO_PENDIENTE = 'PENDIENTE';
     public const ESTADO_RETIRADO = 'RETIRADO';
     public const ESTADO_SUSPENDIDO = 'SUSPENDIDO';
@@ -30,8 +30,8 @@ class Matricula
 
     public const ESTADO_ANULADO = 'ANULADO';
     public const ESTADOS = [
-        self::ESTADO_PREINSCRITO,
         self::ESTADO_MATRICULADO,
+        self::ESTADO_PREINSCRITO,
         self::ESTADO_PENDIENTE,
         self::ESTADO_RETIRADO,
         self::ESTADO_SUSPENDIDO,
@@ -85,6 +85,7 @@ class Matricula
     private ?string $estado = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    #[Type("DateTimeImmutable<'Y-m-d\TH:i:s.uP'>")]
     private ?\DateTimeImmutable $fechaCambioEstado = null;
 
     #[ORM\Column]
@@ -98,7 +99,6 @@ class Matricula
 
     public function __construct()
     {
-        $this->fecha = new \DateTimeImmutable();
         $this->fechaCambioEstado = new \DateTimeImmutable();
         $this->estado = self::ESTADO_PREINSCRITO;
     }
@@ -108,12 +108,12 @@ class Matricula
         return $this->id;
     }
 
-    public function getFecha(): ?\DateTimeInterface
+    public function getFecha(): ?\DateTimeImmutable
     {
         return $this->fecha;
     }
 
-    public function setFecha(?\DateTimeInterface $fecha): static
+    public function setFecha(?\DateTimeImmutable $fecha): static
     {
         $this->fecha = $fecha;
 
@@ -204,7 +204,6 @@ class Matricula
         return $this;
     }
 
-
     public function getEstado(): ?string
     {
         return $this->estado;
@@ -217,12 +216,12 @@ class Matricula
         return $this;
     }
 
-    public function getFechaCambioEstado(): ?\DateTimeInterface
+    public function getFechaCambioEstado(): ?\DateTimeImmutable
     {
         return $this->fechaCambioEstado;
     }
 
-    public function setFechaCambioEstado(?\DateTimeInterface $fechaCambioEstado): static
+    public function setFechaCambioEstado(?\DateTimeImmutable $fechaCambioEstado): static
     {
         $this->fechaCambioEstado = $fechaCambioEstado;
 

@@ -10,6 +10,7 @@
         "doctrine/doctrine-bundle": "^2.13",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.17",
+        "easycorp/easyadmin-bundle": "^4.24",
         "friendsofsymfony/rest-bundle": "^3.8",
         "jms/serializer-bundle": "^5.5",
         "knplabs/knp-paginator-bundle": "^6.3",

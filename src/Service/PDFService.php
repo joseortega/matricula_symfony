@@ -1,14 +1,37 @@
 <?php
 
 namespace App\Service;
+
+use App\Entity\Institucion;
+use App\Repository\InstitucionRepository;
 use TCPDF;
 
 class PDFService extends TCPDF
 {
-//    private $headerHeight = 40; // Ajusta según sea necesario
+    private Institucion $institucion;
+    public function __construct(
+        private InstitucionRepository $institucionRepository,
+        $orientation = 'P',
+        $unit = 'mm',
+        $format = 'A4',
+        $unicode = true,
+        $encoding = 'UTF-8',
+        $diskcache = false,
+        $pdfa = false
+    )
+    {
+        parent::__construct($orientation, $unit, $format, $unicode, $encoding, $diskcache, $pdfa);
+        $this->institucion = $this->institucionRepository->findOneBy([]);
+    }
+
+    //private $headerHeight = 40; // Ajusta según sea necesario
     
     public function Header()
-    {    
+    {
+        //verificar la institución
+        if(!$this->institucion){
+            throw new \RuntimeException('No se encontró la institución configurada');
+        }
         // Ruta de la imagen del logo
         $imageFile = __DIR__ . '/../../public/images/logo.jpg';
 
@@ -21,16 +44,15 @@ class PDFService extends TCPDF
         $this->SetY(12);
         
         // Establecer la fuente para el nombre de la inhstitución
-        $this->SetFont('helvetica', 'B', 18); // Fuente, estilo, tamaño
-        $this->Cell(0, 5, 'Unidad Educativa Héroes del Cenepa', 0, 1, 'C', 0, '', 0, false, 'T', 'M');
+        $this->SetFont('helvetica', 'B', 15); // Fuente, estilo, tamaño
+        $this->Cell(0, 5, $this->institucion->getDenominacion(), 0, 1, 'C', 0, '', 0, false, 'T', 'M');
 
         // Establecer la fuente para el subtítulo
         $this->SetFont('helvetica', '', 12);
-        $this->Cell(0, 5, 'Patuca, Santiago, Morona Santiago', 0, 1, 'C', 0, '', 0, false, 'T', 'M');
-
-        // Establecer la fuente para el subtítulo
-        $this->SetFont('helvetica', '', 15);
-        $this->Cell(0, 5, 'Año Lectivo 2024 - 2025', 0, 1, 'C', 0, '', 0, false, 'T', 'M');
+        $this->Cell(0, 5, "Ruc: ".$this->institucion->getRuc()." Cod Amie: ".$this->institucion->getCodigo(), 0, 1, 'C', 0, '', 0, false, 'T', 'M');
+        $this->Cell(0, 5, $this->institucion->getDireccion(), 0, 1, 'C', 0, '', 0, false, 'T', 'M');
+        $this->SetFont('helvetica', '', 12);
+        $this->Cell(0, 5, "Tlf: ".$this->institucion->getTelefono()." Correo: ".$this->institucion->getCorreo(), 0, 1, 'C', 0, '', 0, false, 'T', 'M');
 
         // Línea de separación debajo del encabezado
         $this->Ln(10);
@@ -51,7 +73,7 @@ class PDFService extends TCPDF
         // Configurar el documento
         $this->SetCreator(PDF_CREATOR);
         $this->SetAuthor('Jose Ortega');
-        $this->SetTitle('Certificado de Matricula');
+        $this->SetTitle('Documentos o Certificados de la Institución');
         $this->SetSubject('Generación de PDF con Symfony y TCPDF');
         $this->SetKeywords('TCPDF, PDF, Symfony');
 

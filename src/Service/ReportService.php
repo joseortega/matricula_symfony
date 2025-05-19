@@ -266,4 +266,77 @@ class ReportService {
 
         return $pdf;
     }
+
+    public function printMatriculaList(
+        string $periodoFilter,
+        string $gradoFilter,
+        string $paraleloFilter,
+        string $estadoFilter,
+        string $searchFilter,
+        array $matriculas
+    ) {
+
+        $pdf = $this->pdfService->createPDF();
+
+        //Título
+        $titulo = "<p style='text-align: justify; margin: 0; padding: 0;'>
+                        LiSTADO DE MATRICULAS
+                   </p>";
+
+        $pdf->SetFont('helvetica', 'B', 18);
+        $pdf->writeHTMLCell(0, 15, '', '', $titulo, 0, 1, 0, true, 'C', true);
+
+        // Filtros
+        $pdf->setFillColor(255, 255, 255); // Fondo blanco (RGB)
+        $pdf->setTextColor(0); // Texto negro
+
+        $pdf->SetFont('helvetica', 'B', 12);
+        $pdf->Cell(35,5,'Periodo Lectivo: ',0,0,'L',1);
+        $pdf->SetFont('helvetica', '', 12);
+        $pdf->Cell(0,5,$periodoFilter,0,1,'L');
+
+        $pdf->SetFont('helvetica', 'B', 12);
+        $pdf->Cell(35,5,'Grado o Curso: ',0,0,'L',1);
+        $pdf->SetFont('helvetica', '', 12);
+        $pdf->Cell(0,5,$gradoFilter,0,1,'L');
+
+        $pdf->SetFont('helvetica', 'B', 12);
+        $pdf->Cell(35,5,'Paralelo: ',0,0,'L',1);
+        $pdf->SetFont('helvetica', '', 12);
+        $pdf->Cell(0,5,$paraleloFilter,0,1,'L');
+
+        $pdf->SetFont('helvetica', 'B', 12);
+        $pdf->Cell(35,5,'Estado: ',0,0,'L',1);
+        $pdf->SetFont('helvetica', '', 12);
+        $pdf->Cell(0,5,$estadoFilter,0,1,'L');
+
+        $pdf->SetFont('helvetica', 'B', 12);
+        $pdf->Cell(50,5,'Término de Busqueda: ',0,0,'L',1);
+        $pdf->SetFont('helvetica', '', 12);
+        $pdf->Cell(0,5,$searchFilter,0,1,'L');
+
+        //espacio
+        $pdf->Ln(10);
+
+        //cabecera de tabla
+        $pdf->SetFont('helvetica', '', 8);
+        $pdf->setFillColor(58, 83, 155);
+        $pdf->setTextColor(255);
+        $pdf->Cell(18, 10, 'Identificacion', 1, 0, 'L', true);
+        $pdf->Cell(80, 10, 'Nombres', 1, 0, 'L', true);
+        $pdf->Cell(22, 10, 'Periodo Lectivo', 1, 0, 'C', true);
+        $pdf->Cell(0, 10, 'Grado', 1, 1, 'L', true);
+
+        //Datos
+        $pdf->setFillColor(255);
+        $pdf->setTextColor(0);
+        foreach ($matriculas as $matricula) {
+            $pdf->Cell(18, 10, $matricula->getEstudiante()->getIdentificacion(), 1, 0, 'L', true);
+            $pdf->Cell(80, 10, $matricula->getEstudiante(), 1, 0, 'L', true);
+            $pdf->Cell(22, 10, $matricula->getPeriodoLectivo(), 1, 0, 'C', true);
+            $pdf->Cell(0, 10, $matricula->getGradoEscolar(), 1, 1, 'L', true);
+        }
+
+        return $pdf;
+    }
 }

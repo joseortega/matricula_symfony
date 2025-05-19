@@ -111,10 +111,6 @@ class PeriodoLectivo
 
         return $this;
     }
-    
-    public function __toString() {
-        return $this->getDescripcion();
-    }
 
     public function isHabilitadoParaMatricula(): ?bool
     {
@@ -126,5 +122,9 @@ class PeriodoLectivo
         $this->habilitadoParaMatricula = $habilitadoParaMatricula;
 
         return $this;
+    }
+
+    public function __toString() {
+        return $this->getDescripcion();
     }
 }
