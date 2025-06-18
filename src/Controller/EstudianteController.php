@@ -107,42 +107,4 @@ class EstudianteController extends AbstractController
         }
         return new Response($this->serializer->serialize($estudiante, 'json'), Response::HTTP_OK);
     }
-
-
-    
-//    public function update(int $id, Request $request, ValidatorInterface $validator, SerializerInterface $serializer, EntityManagerInterface $entityManager, NacionalidadRepository $nacionalidadRepository, EstudianteRepository $estudianteRespository, RepresentanteRepository $representanteRepository): Response
-//    {   
-//        $estudiante = $estudianteRespository->find($id);
-//        
-//        $data = json_decode($request->getContent());
-//        
-//        $estudiante->setIdentificacion($data->identificacion);
-//        $estudiante->setApellidos($data->apellidos);
-//        $estudiante->setNombres($data->nombres);
-//        $estudiante->setSexo($data->sexo);
-//        $estudiante->setFechaNacimiento(new \DateTime($data->fecha_nacimiento));
-//        $estudiante->setNacionalidad($nacionalidadRepository->find($data->nacionalidad->id));
-//        $estudiante->setLugarResidencia($data->lugar_residencia);
-//        
-//        if(isset($data->telefono)){
-//            $estudiante->setTelefono($data->telefono);
-//        }
-//        if(isset($data->correo)){
-//            $estudiante->setCorreo($data->correo);
-//        }
-//        if(isset($data->representante->id)){
-//            $estudiante->setRepresentante($representanteRepository->find($data->representante->id));
-//        }
-//        
-//        $errors = $validator->validate($estudiante);
-//       
-//        if (count($errors) > 0) {
-//            throw new InvalidArgumentException((string) $errors);
-//        }
-//        
-//        $entityManager->persist($estudiante);
-//        $entityManager->flush();
-//        
-//        return new Response($serializer->serialize($estudiante, 'json'), Response::HTTP_OK); 
-//    }
 }

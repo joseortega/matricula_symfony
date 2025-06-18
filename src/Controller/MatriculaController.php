@@ -136,7 +136,27 @@ class MatriculaController extends AbstractController
         // Devolver el PDF como respuesta
         return new Response($pdfContent, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="document.pdf"'
+            'Content-Disposition' => 'inline; filename="certificado-matricula.pdf"'
+        ]);
+    }
+
+    #[Route('/matricula/pdf-certificado-preinscripcion/{id}', name: 'app_matricula_pdf_certificado_preinscripcion', methods: ['GET'], defaults: ["_format"=>"json"])]
+    public function pdfCetificadoPreinscripcion(int $id): Response
+    {
+        $matricula = $this->matriculaRepository->find($id);
+
+        if(!$matricula){
+            throw new BadRequestHttpException('No existe la matricula.');
+        }
+
+        // Generar el PDF
+        $pdf = $this->reportService->printCertifidadoPreInscripción($matricula);
+        // 'S' devuelve el PDF como cadena
+        $pdfContent = $pdf->Output('', 'S');
+        // Devolver el PDF como respuesta
+        return new Response($pdfContent, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="certificado-preinscripcion.pdf"'
         ]);
     }
 

@@ -12,6 +12,7 @@ use JMS\Serializer\Annotation\Exclude;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EstudianteRepository::class)]
+#[ORM\HasLifecycleCallbacks] // ¡Este atributo es crucial!
 class Estudiante
 {
     public const SEXO_HOMBRE = 'HOMBRE';
@@ -85,6 +86,15 @@ class Estudiante
     {
         $this->matriculas = new ArrayCollection();
         $this->estudianteRepresentantes = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function normalizeNames(): void
+    {
+        $this->nombres = mb_strtoupper($this->nombres, 'UTF-8');
+        $this->apellidos = mb_strtoupper($this->apellidos, 'UTF-8');
+        $this->direccion = mb_strtoupper($this->direccion, 'UTF-8');
     }
 
     public function getId(): ?int

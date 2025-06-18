@@ -7,6 +7,7 @@ use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Yaml\Yaml;
 
 class UserFixtures extends Fixture implements FixtureGroupInterface
 {
@@ -18,14 +19,21 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
     
     public function load(ObjectManager $manager): void
     {
-        $user = new User();
-        $user->setUsername('admin');
-        $user->setEmail('josheorteg@gmail.com');
+        // Cargar el archivo YAML
+        $users = Yaml::parseFile(__DIR__.'/yaml/users.yaml');
 
-        $password = $this->hasher->hashPassword($user, 'pass_1234');
-        $user->setPassword($password);
+        foreach ($users['users'] as $data) {
+            $user = new User();
+            $user->setUsername($data['name']);
+            $user->setEmail($data['email']);
+            $password = $this->hasher->hashPassword(
+                $user,
+                $data['password']
+            );
+            $user->setPassword($password);
+            $manager->persist($user);
+        }
 
-        $manager->persist($user);
         $manager->flush();
     }
 

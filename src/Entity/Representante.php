@@ -13,8 +13,13 @@ use JMS\Serializer\Annotation\Exclude;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RepresentanteRepository::class)]
+#[ORM\HasLifecycleCallbacks] // ¡Este atributo es crucial!
 class Representante
 {
+    public const SEXO_HOMBRE = 'HOMBRE';
+    public const SEXO_MUJER = 'MUJER';
+
+    public const SEXOS  = [self::SEXO_HOMBRE, self::SEXO_MUJER];
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -31,6 +36,11 @@ class Representante
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $nombres = null;
+
+    #[Assert\NotBlank]
+    #[Assert\Choice(self::SEXOS)]
+    #[ORM\Column(length: 255)]
+    private ?string $sexo = null;
     
     #[Type("DateTime<'Y-m-d'>")]
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -57,6 +67,15 @@ class Representante
     {
         $this->estudiantes = new ArrayCollection();
         $this->estudianteRepresentantes = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function normalizeNames(): void
+    {
+        $this->nombres = mb_strtoupper($this->nombres, 'UTF-8');
+        $this->apellidos = mb_strtoupper($this->apellidos, 'UTF-8');
+        $this->direccion = mb_strtoupper($this->direccion, 'UTF-8');
     }
 
     public function getId(): ?int

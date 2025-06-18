@@ -12,7 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MatriculaRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-
 #[UniqueEntity(
     fields: ['estudiante', 'periodoLectivo'],
     message: 'El estudiante ya ha sido matriculado en el periodo lectivo.',
@@ -20,24 +19,25 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 class Matricula
 {
-    public const ESTADO_MATRICULADO = 'MATRICULADO';
-    public const ESTADO_PREINSCRITO = 'PREINSCRITO';
-    public const ESTADO_PENDIENTE = 'PENDIENTE';
-    public const ESTADO_RETIRADO = 'RETIRADO';
-    public const ESTADO_SUSPENDIDO = 'SUSPENDIDO';
-    public const ESTADO_EGRESADO = 'EGRESADO';
-    public const ESTADO_TRASLADADO = 'TRASLADADO';
+    // Estados de la matrícula
+    public const ESTADO_PREINSCRIPCION = 'PREINSCRIPCION'; // Intención de matricularse
+    public const ESTADO_PENDIENTE      = 'PENDIENTE';      // Falta algún requisito
+    public const ESTADO_ACTIVA         = 'ACTIVA';         // Matrícula vigente
+    public const ESTADO_SUSPENDIDA     = 'SUSPENDIDA';     // Pausa temporal
+    public const ESTADO_RETIRADA       = 'RETIRADA';       // Retiro voluntario
+    public const ESTADO_ANULADA        = 'ANULADA';        // Anulada antes de iniciar
+    public const ESTADO_FINALIZADA     = 'FINALIZADA';     // Finalizó el periodo
+    public const ESTADO_TRASLADADA     = 'TRASLADADA';     // Traslado a otra sede/carrera
 
-    public const ESTADO_ANULADO = 'ANULADO';
     public const ESTADOS = [
-        self::ESTADO_MATRICULADO,
-        self::ESTADO_PREINSCRITO,
+        self::ESTADO_PREINSCRIPCION,
         self::ESTADO_PENDIENTE,
-        self::ESTADO_RETIRADO,
-        self::ESTADO_SUSPENDIDO,
-        self::ESTADO_EGRESADO,
-        self::ESTADO_TRASLADADO,
-        self::ESTADO_ANULADO,
+        self::ESTADO_ACTIVA,
+        self::ESTADO_SUSPENDIDA,
+        self::ESTADO_RETIRADA,
+        self::ESTADO_ANULADA,
+        self::ESTADO_FINALIZADA,
+        self::ESTADO_TRASLADADA,
     ];
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -100,7 +100,22 @@ class Matricula
     public function __construct()
     {
         $this->fechaCambioEstado = new \DateTimeImmutable();
-        $this->estado = self::ESTADO_PREINSCRITO;
+        $this->estado = self::ESTADO_PREINSCRIPCION;
+    }
+
+
+    #[ORM\PostLoad]
+    public function saveEstadoAnterior(): void
+    {
+        $this->estadoAnterior = $this->estado;
+    }
+
+    #[ORM\PreUpdate]
+    public function updateFechaCambioEstado(): void
+    {
+        if($this->estado !== $this->estadoAnterior){
+            $this->fechaCambioEstado = new \DateTimeImmutable();
+        }
     }
 
     public function getId(): ?int
@@ -211,8 +226,10 @@ class Matricula
 
     public function setEstado(?string $estado): static
     {
+        if (!in_array($estado, self::ESTADOS, true)) {
+            throw new \InvalidArgumentException("Estado de matrícula inválido: $estado");
+        }
         $this->estado = $estado;
-
         return $this;
     }
 
@@ -238,19 +255,5 @@ class Matricula
         $this->observacion = $observacion;
 
         return $this;
-    }
-
-    #[ORM\PostLoad]
-    public function saveEstadoAnterior(): void
-    {
-        $this->estadoAnterior = $this->estado;
-    }
-
-    #[ORM\PreUpdate]
-    public function updateFechaCambioEstado(): void
-    {
-        if($this->estado !== $this->estadoAnterior){
-            $this->fechaCambioEstado = new \DateTimeImmutable();
-        }
     }
 }

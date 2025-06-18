@@ -65,6 +65,52 @@ class ReportService {
         return $pdf;   
     }
 
+    public function printCertifidadoPreInscripción(Matricula $matricula) {
+
+        $pdf = $this->pdfService->createPDF();
+
+        $pdf->SetFont('helvetica', 'B', 18); // Fuente, estilo, tamaño
+        $pdf->Cell(0, 20, 'CERTIFICADO DE PRE-INSCRIPCIÓN', 0, 1, 'C', 0, '', 0, false, 'T', 'M');
+
+        $parrafo1 ="
+        <p style='text-align: justify; margin: 0;'>
+            El <b>Lic. JOSE MIGUEL YANZA CHACHO</b> con número de cédula N° <b>1400721138</b>, en su rol de RECTOR de la UNIDAD EDUCATIVA HÉROES DEL CENEPA
+        </p>";
+
+        $pdf->SetFont('helvetica', '', 15); // Fuente, estilo, tamaño
+        $pdf->writeHTMLCell(0, 5, '', '', $parrafo1, 0, 1, 0, true, 'J', true);
+
+        $pdf->SetFont('helvetica', 'B', 18); // Fuente, estilo, tamaño
+        $pdf->Cell(0, 20, 'CERTIFICA', 0, 1, 'C', 0, '', 0, false, 'T', 'M');
+
+        $parrafo2 ="
+        <p style='text-align: justify; margin: 0; padding: 0;'>
+            Que el estudiante <b>{$matricula->getEstudiante()}</b>
+            con número de identificación <b>{$matricula->getEstudiante()->getIdentificacion()}</b>,
+            ha sido pre-inscrito en el <b>{$matricula->getGradoEscolar()}</b>,
+            para el año lectivo <b>{$matricula->getPeriodoLectivo()}</b>
+        </p>";
+
+        $pdf->SetFont('helvetica', '', 15); // Fuente, estilo, tamaño
+        $pdf->writeHTMLCell(0, 5, '', '', $parrafo2, 0, 1, 0, true, 'J', true);
+
+        $fechaActual = new \DateTime();
+        $fechaString = $fechaActual->format('Y-m-d');
+
+        $pdf->SetFont('helvetica', 'B', 15); // Fuente, estilo, tamaño
+        $pdf->Cell(0, 20, "Fecha de Emisión: {$fechaString}", 0, 1, 'R', 0, '', 0, false, 'T', 'M');
+
+        $pdf->SetFont('helvetica', 'B', 15); // Fuente, estilo, tamaño
+        $pdf->Cell(0, 20, "Atentamente:", 0, 1, 'L', 0, '', 0, false, 'T', 'M');
+
+        $pdf->Cell(0, 30, '', 0, 1, 'C'); // Espacio para la firma
+        $pdf->Line(50, $pdf->GetY(), 160, $pdf->GetY()); // Línea horizontal (ajusta las coordenadas según sea necesario)
+
+        $pdf->Cell(0, 10, 'Rector', 0, 1, 'C');
+
+        return $pdf;
+    }
+
     public function printCertifidadoMatriculaAsistencia(Matricula $matricula) {
 
         $pdf = $this->pdfService->createPDF();
