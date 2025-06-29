@@ -31,6 +31,7 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
                 $data['password']
             );
             $user->setPassword($password);
+            $user->setRoles($data['roles']);
             $manager->persist($user);
         }
 

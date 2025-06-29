@@ -1,85 +1,106 @@
 users:
   user1:
     name: claudio.ortega
-    email: josheorteg@gmail.com
+    email: claudio.ortega@educacion.gob.ec
     password: admin
+    roles: ['ROLE_ADMIN']
   user2:
-    name: liduvina.alvera
+    name: liduvina.alvear
     email: liduvina.alvera@educacionj.gob.ec
     password: "Educar2026LA#"
+    roles: ['ROLE_USER']
   user3:
     name: tony.espinoza
     email: tony.espinoza@educacion.gob.ec
     password: "Educar2026TE#"
+    roles: ['ROLE_USER']
   user4:
     name: marisol.guamany
     email: marisol.guamany@educacion.gob.ec
     password: "Educar2026MG#"
+    roles: ['ROLE_USER']
   user5:
     name: lisbeth.guerrero
     email: lisbeth.guerrero@educacion.gob.ec
     password: "Educar2026LG#"
+    roles: ['ROLE_USER']
   user6:
     name: luisa.kayap
     email: luisa.kayap@educacion.gob.ec
     password: "Educar2026LK#"
+    roles: ['ROLE_USER']
   user7:
     name: juanp.martinez
     email: juanp.martinez@educacion.gob.ec
     password: "Educar2026JM#"
+    roles: ['ROLE_USER']
   user8:
     name: ikianchim.mashiant
     email: ikianchim.mashiant@educacion.gob.ec
     password: "Educar2026IM#"
+    roles: ['ROLE_USER']
   user9:
     name: maria.medina
     email: maria.medina@educacion.gob.ec
     password: "Educar2026MM#"
+    roles: ['ROLE_USER']
   user10:
     name: santiago.molina
     email: santiago.molina@educacion.gob.ec
     password: "Educar2026SM#"
+    roles: ['ROLE_USER']
   user11:
     name: rosario.montesdeoca
     email: rosario.montesdeoca@educacion.gob.ec
     password: "Educar2026RM#"
+    roles: ['ROLE_USER']
   user12:
     name: carmenm.pachec
     email: carmenm.pacheco@educacion
     password: "Educar2026CP#"
+    roles: ['ROLE_USER']
   user13:
     name: celina.piruch
     email: celina.piruch@educacion.gob.ec
     password: "Educar2026CP#"
+    roles: ['ROLE_USER']
   user14:
     name: luis.ramon
     email: luis.ramon@educacion.gob.ec
     password: "Educar2026LR#"
+    roles: ['ROLE_USER']
   user15:
     name: irmay.rivera
     email: irmay.rivera@educacion.gob.ec
     password: "Educar2026IR#"
+    roles: ['ROLE_USER']
   user16:
     name: nubec.sarmiento
     email: nubec.sarmiento@educacion.gob.ec
     password: "Educar2026NS#"
+    roles: ['ROLE_USER']
   user17:
     name: lady.tenesaca
     email: lady.tenesaca@educacion.gob.ec
     password: "Educar2026LT#"
+    roles: ['ROLE_USER']
   user18:
     name: jose.yanza
     email: jose.yanza@educacion.gob.ec
     password: "Educar2026JY#"
+    roles: ['ROLE_USER']
   user19:
     name: jessica.yumiciba
     email: jessica.yumiciba@educacion.gob.ec
     password: "Educar2026JY#"
+    roles: ['ROLE_USER']
   user20:
     name: alejandrina.zuniga
     email: alejandrina.zuniga@educacion.gob.ec
     password: "Educar2026AZ#"
+    roles: ['ROLE_USER']
   user21:
     name: joselyn.carpio
     email: joselyn.carpio@educacion.gob.ec
     password: "Educar2026JC#"
+    roles: ['ROLE_USER']

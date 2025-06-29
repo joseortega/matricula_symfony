@@ -24,17 +24,17 @@ class NacionalidadRepository extends ServiceEntityRepository
 //    /**
 //     * @return Nacionalidad[] Returns an array of Nacionalidad objects
 //     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('n')
-//            ->andWhere('n.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('n.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findByNombre($value): array
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.descripcion = :val')
+            ->setParameter('val', $value)
+            ->orderBy('n.descripcion', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Nacionalidad
 //    {

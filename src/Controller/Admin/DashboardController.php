@@ -57,6 +57,7 @@ class DashboardController extends AbstractDashboardController
             ->setTitle('Matricula Symfony');
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     public function configureMenuItems(): iterable
     {
         //yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
@@ -83,5 +84,6 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Sección de Usuarios');
         yield MenuItem::linkToCrud('Usuario', 'fas fa-list', User::class);
+
     }
 }
