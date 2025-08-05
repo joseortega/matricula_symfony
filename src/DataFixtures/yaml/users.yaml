@@ -2,7 +2,7 @@ users:
   user1:
     name: claudio.ortega
     email: claudio.ortega@educacion.gob.ec
-    password: admin
+    password: "Educar2026JCOA#"
     roles: ['ROLE_ADMIN']
   user2:
     name: liduvina.alvear
@@ -55,7 +55,7 @@ users:
     password: "Educar2026RM#"
     roles: ['ROLE_USER']
   user12:
-    name: carmenm.pachec
+    name: carmenm.pacheco
     email: carmenm.pacheco@educacion
     password: "Educar2026CP#"
     roles: ['ROLE_USER']

@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ExpedienteRepository::class)]
+#[ORM\HasLifecycleCallbacks] // ¡Este atributo es crucial!
 class Expediente
 {
     #[ORM\Id]
@@ -18,20 +19,26 @@ class Expediente
     #[ORM\Column]
     private ?int $id = null;
     
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $fechaIngreso = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $fechaIngreso = null;
     
     #[ORM\Column()]
-    private ?bool $esta_completo = false;
+    private ?bool $completo = false;
 
     #[ORM\Column]
-    private ?bool $esta_retirado = false;
+    private ?bool $retirado = false;
     
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $fechaRetiro = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $fechaRetiro = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $observacion = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $creadoEn = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $actualizadoEn = null;
     
     /**
      * @var Collection<int, Requisito>
@@ -46,6 +53,21 @@ class Expediente
     public function __construct()
     {
         $this->requisitos = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function setTimestampsOnCreate(): void
+    {
+        if ($this->creadoEn === null) {
+            $this->creadoEn = new \DateTimeImmutable();
+        }
+        $this->actualizadoEn = new \DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function setTimestampsOnUpdate(): void
+    {
+        $this->actualizadoEn = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -89,52 +111,76 @@ class Expediente
         return $this;
     }
 
-    public function getFechaIngreso(): ?\DateTimeInterface
+    public function getFechaIngreso(): ?\DateTimeImmutable
     {
         return $this->fechaIngreso;
     }
 
-    public function setFechaIngreso(?\DateTimeInterface $fechaIngreso): static
+    public function setFechaIngreso(?\DateTimeImmutable $fechaIngreso): static
     {
         $this->fechaIngreso = $fechaIngreso;
 
         return $this;
     }
 
-    public function getFechaRetiro(): ?\DateTimeInterface
+    public function getFechaRetiro(): ?\DateTimeImmutable
     {
         return $this->fechaRetiro;
     }
 
-    public function setFechaRetiro(?\DateTimeInterface $fechaRetiro): static
+    public function setFechaRetiro(?\DateTimeImmutable $fechaRetiro): static
     {
         $this->fechaRetiro = $fechaRetiro;
 
         return $this;
     }
 
-    public function isEstaCompleto(): ?bool
+    public function isCompleto(): ?bool
     {
-        return $this->esta_completo;
+        return $this->completo;
     }
 
-    public function setEstaCompleto(?bool $esta_completo): static
+    public function setCompleto(?bool $completo): static
     {
-        $this->esta_completo = $esta_completo;
+        $this->completo = $completo;
 
         return $this;
     }
 
-    public function isEstaRetirado(): ?bool
+    public function isRetirado(): ?bool
     {
-        return $this->esta_retirado;
+        return $this->retirado;
     }
 
-    public function setEstaRetirado(bool $esta_retirado): static
+    public function setRetirado(bool $esta_retirado): static
     {
-        $this->esta_retirado = $esta_retirado;
+        $this->retirado = $esta_retirado;
 
         return $this;
+    }
+
+    public function setCreadoEn(\DateTimeImmutable $creadoEn): static
+    {
+        $this->creadoEn = $creadoEn;
+
+        return $this;
+    }
+
+    public function setActualizadoEn(\DateTimeImmutable $actualizadoEn): static
+    {
+        $this->actualizadoEn = $actualizadoEn;
+
+        return $this;
+    }
+
+    public function getCreadoEn(): ?\DateTimeImmutable
+    {
+        return $this->creadoEn;
+    }
+
+    public function getActualizadoEn(): ?\DateTimeImmutable
+    {
+        return $this->actualizadoEn;
     }
 
     public function getEstudiante(): ?Estudiante

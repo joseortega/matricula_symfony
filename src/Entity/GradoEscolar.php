@@ -20,7 +20,7 @@ class GradoEscolar
     private ?int $id = null;
     
     #[Assert\NotBlank]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
     private ?string $descripcion = null;
     
     #[ORM\Column(nullable: true)]

@@ -4,12 +4,13 @@ namespace App\Controller\Admin;
 
 use App\Entity\Circuito;
 use App\Entity\Distrito;
+use App\Entity\EstadoMatricula;
 use App\Entity\GradoEscolar;
 use App\Entity\Institucion;
 use App\Entity\Jornada;
 use App\Entity\Modalidad;
-use App\Entity\Nacionalidad;
 use App\Entity\Nivel;
+use App\Entity\Pais;
 use App\Entity\Paralelo;
 use App\Entity\Parentesco;
 use App\Entity\PeriodoLectivo;
@@ -75,9 +76,10 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Jornanda', 'fas fa-list', Jornada::class);
         yield MenuItem::linkToCrud('Grado Escolar', 'fas fa-list', GradoEscolar::class);
         yield MenuItem::linkToCrud('Paralelo', 'fas fa-list', Paralelo::class);
+        yield MenuItem::linkToCrud('Estado', 'fas fa-list', EstadoMatricula::class);
 
         yield MenuItem::section('Parametros de Estudiante');
-        yield MenuItem::linkToCrud('Nacionalidad', 'fas fa-list', Nacionalidad::class);
+        yield MenuItem::linkToCrud('Pais', 'fas fa-list', Pais::class);
         yield MenuItem::linkToCrud('Parentesco', 'fas fa-list', Parentesco::class);
         yield MenuItem::linkToCrud('Uniforme Talla', 'fas fa-list', UniformeTalla::class);
         yield MenuItem::linkToCrud('Requisito', 'fas fa-list', Requisito::class);

@@ -15,10 +15,10 @@ class Distrito
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 20)]
     private ?string $codigo = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 150)]
     private ?string $denominacion = null;
 
     #[ORM\ManyToOne]

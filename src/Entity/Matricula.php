@@ -19,35 +19,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 class Matricula
 {
-    // Estados de la matrícula
-    public const ESTADO_PREINSCRIPCION = 'PREINSCRIPCION'; // Intención de matricularse
-    public const ESTADO_PENDIENTE      = 'PENDIENTE';      // Falta algún requisito
-    public const ESTADO_ACTIVA         = 'ACTIVA';         // Matrícula vigente
-    public const ESTADO_SUSPENDIDA     = 'SUSPENDIDA';     // Pausa temporal
-    public const ESTADO_RETIRADA       = 'RETIRADA';       // Retiro voluntario
-    public const ESTADO_ANULADA        = 'ANULADA';        // Anulada antes de iniciar
-    public const ESTADO_FINALIZADA     = 'FINALIZADA';     // Finalizó el periodo
-    public const ESTADO_TRASLADADA     = 'TRASLADADA';     // Traslado a otra sede/carrera
-
-    public const ESTADOS = [
-        self::ESTADO_PREINSCRIPCION,
-        self::ESTADO_PENDIENTE,
-        self::ESTADO_ACTIVA,
-        self::ESTADO_SUSPENDIDA,
-        self::ESTADO_RETIRADA,
-        self::ESTADO_ANULADA,
-        self::ESTADO_FINALIZADA,
-        self::ESTADO_TRASLADADA,
-    ];
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[Assert\NotBlank]
-    #[Type("DateTimeImmutable<'Y-m-d'>")]
-    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
-    private ?\DateTimeImmutable $fecha = null;
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(inversedBy: 'matriculas')]
@@ -79,43 +54,51 @@ class Matricula
     #[ORM\JoinColumn(nullable: false)]
     private ?PeriodoLectivo $periodoLectivo = null;
 
+    #[ORM\Column]
+    private ?bool $inscripcionAutomatica = false;
+
     #[Assert\NotBlank]
-    #[Assert\Choice(self::ESTADOS)]
-    #[ORM\Column(length: 255)]
-    private ?string $estado = null;
+    #[Type("DateTimeImmutable<'Y-m-d'>")]
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $fechaInscripcion = null;
+
+    #[ORM\Column]
+    private ?bool $inscritoSistemaPublico = true;
+
+    #[ORM\Column]
+    private ?bool $legalizada = false;
+
+    #[Type("DateTimeImmutable<'Y-m-d'>")]
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $fechaLegalizacion = null;
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(inversedBy: 'matriculas')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?EstadoMatricula $estadoMatricula = null;
+
+    //Campo Temporal para detectar cambios
+    private ?EstadoMatricula $estadoAnterior = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     #[Type("DateTimeImmutable<'Y-m-d\TH:i:s.uP'>")]
     private ?\DateTimeImmutable $fechaCambioEstado = null;
 
     #[ORM\Column]
-    private ?bool $inscritoEnSistemaPublico = true;
-
+    private ?bool $promovida = false;
+    
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $observacion = null;
 
-    //Campo Temporal para detectar cambios
-    private ?string $estadoAnterior = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $creadoEn = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $actualizadoEn = null;
 
     public function __construct()
     {
         $this->fechaCambioEstado = new \DateTimeImmutable();
-        $this->estado = self::ESTADO_PREINSCRIPCION;
-    }
-
-
-    #[ORM\PostLoad]
-    public function saveEstadoAnterior(): void
-    {
-        $this->estadoAnterior = $this->estado;
-    }
-
-    #[ORM\PreUpdate]
-    public function updateFechaCambioEstado(): void
-    {
-        if($this->estado !== $this->estadoAnterior){
-            $this->fechaCambioEstado = new \DateTimeImmutable();
-        }
     }
 
     public function getId(): ?int
@@ -123,16 +106,34 @@ class Matricula
         return $this->id;
     }
 
-    public function getFecha(): ?\DateTimeImmutable
+    #[ORM\PostLoad]
+    public function saveEstadoAnterior(): void
     {
-        return $this->fecha;
+        $this->estadoAnterior = $this->estadoMatricula;
     }
 
-    public function setFecha(?\DateTimeImmutable $fecha): static
+    #[ORM\PreUpdate]
+    public function updateFechaCambioEstado(): void
     {
-        $this->fecha = $fecha;
+        if($this->estadoMatricula->getId() !== $this->estadoAnterior->getId()){
+            $this->fechaCambioEstado = new \DateTimeImmutable();
+        }
+    }
 
-        return $this;
+    #[ORM\PrePersist]
+    public function setTimestampsOnCreate(): void
+    {
+        if ($this->creadoEn === null) {
+            $this->creadoEn = new \DateTimeImmutable();
+        }
+
+        $this->actualizadoEn = new \DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function setTimestampsOnUpdate(): void
+    {
+        $this->actualizadoEn = new \DateTimeImmutable();
     }
 
     public function getEstudiante(): ?Estudiante
@@ -207,29 +208,38 @@ class Matricula
         return $this;
     }
 
-    public function isInscritoEnSistemaPublico(): ?bool
+    public function isInscritoSistemaPublico(): ?bool
     {
-        return $this->inscritoEnSistemaPublico;
+        return $this->inscritoSistemaPublico;
     }
 
-    public function setInscritoEnSistemaPublico(bool $inscritoEnSistemaPublico): static
+    public function setInscritoSistemaPublico(bool $inscritoSistemaPublico): static
     {
-        $this->inscritoEnSistemaPublico = $inscritoEnSistemaPublico;
+        $this->inscritoSistemaPublico = $inscritoSistemaPublico;
 
         return $this;
     }
 
-    public function getEstado(): ?string
+    public function isPromovida(): ?bool
     {
-        return $this->estado;
+        return $this->promovida;
     }
 
-    public function setEstado(?string $estado): static
+    public function setPromovida(bool $promovida): static
     {
-        if (!in_array($estado, self::ESTADOS, true)) {
-            throw new \InvalidArgumentException("Estado de matrícula inválido: $estado");
-        }
-        $this->estado = $estado;
+        $this->promovida = $promovida;
+
+        return $this;
+    }
+
+    public function getEstadoMatricula(): ?EstadoMatricula
+    {
+        return $this->estadoMatricula;
+    }
+
+    public function setEstadoMatricula(?EstadoMatricula $estadoMatricula): static
+    {
+        $this->estadoMatricula = $estadoMatricula;
         return $this;
     }
 
@@ -253,6 +263,80 @@ class Matricula
     public function setObservacion(?string $observacion): static
     {
         $this->observacion = $observacion;
+
+        return $this;
+    }
+
+
+    public function isLegalizada(): ?bool
+    {
+        return $this->legalizada;
+    }
+
+    public function setLegalizada(bool $legalizada): static
+    {
+        $this->legalizada = $legalizada;
+        
+        return $this;
+    }
+
+    public function getFechaInscripcion(): ?\DateTimeImmutable
+    {
+        return $this->fechaInscripcion;
+    }
+
+    public function setFechaInscripcion(?\DateTimeImmutable $fechaInscripcion): static
+    {
+        $this->fechaInscripcion = $fechaInscripcion;
+
+        return $this;
+    }
+
+    public function getFechaLegalizacion(): ?\DateTimeImmutable
+    {
+        return $this->fechaLegalizacion;
+    }
+
+    public function setFechaLegalizacion(?\DateTimeImmutable $fechaLegalizacion): static
+    {
+        $this->fechaLegalizacion = $fechaLegalizacion;
+
+        return $this;
+    }
+
+
+    public function setCreadoEn(\DateTimeImmutable $creadoEn): static
+    {
+        $this->creadoEn = $creadoEn;
+
+        return $this;
+    }
+
+    public function setActualizadoEn(\DateTimeImmutable $actualizadoEn): static
+    {
+        $this->actualizadoEn = $actualizadoEn;
+
+        return $this;
+    }
+
+    public function getCreadoEn(): ?\DateTimeImmutable
+    {
+        return $this->creadoEn;
+    }
+
+    public function getActualizadoEn(): ?\DateTimeImmutable
+    {
+        return $this->actualizadoEn;
+    }
+
+    public function isInscripcionAutomatica(): ?bool
+    {
+        return $this->inscripcionAutomatica;
+    }
+
+    public function setInscripcionAutomatica(bool $inscripcionAutomatica): static
+    {
+        $this->inscripcionAutomatica = $inscripcionAutomatica;
 
         return $this;
     }

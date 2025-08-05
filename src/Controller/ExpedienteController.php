@@ -77,7 +77,7 @@ class ExpedienteController extends AbstractController
     {
         $expediente = $this->serializer->deserialize($request->getContent(), Expediente::class, 'json');
         $expediente->setEstudiante($this->estudianteRepository->find($estudianteId));
-        $expediente->setFechaIngreso(new \DateTime());
+        $expediente->setFechaIngreso(new \DateTimeImmutable());
 
         $errors = $this->validator->validate($expediente);
 
@@ -138,8 +138,8 @@ class ExpedienteController extends AbstractController
             throw new BadRequestHttpException('Registre el representante principal, para retirar el expediente');
         }
 
-        $expediente->setFechaRetiro(new \DateTime());
-        $expediente->setEstaRetirado(true);
+        $expediente->setFechaRetiro(new \DateTimeImmutable());
+        $expediente->setRetirado(true);
         $this->entityManager->persist($expediente);
         $this->entityManager->flush();
 
@@ -156,7 +156,8 @@ class ExpedienteController extends AbstractController
         }
 
         $expediente->setFechaRetiro(null);
-        $expediente->setEstaRetirado(false);
+        $expediente->setRetirado(false);
+        $expediente->setFechaIngreso(new \DateTimeImmutable());
         $this->entityManager->persist($expediente);
         $this->entityManager->flush();
 

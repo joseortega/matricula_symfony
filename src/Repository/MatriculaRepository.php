@@ -49,7 +49,7 @@ class MatriculaRepository extends ServiceEntityRepository
         $periodoLectivoId = null,
         $gradoEscolarId = null,
         $paraleloId = null,
-        $estado = '',
+        $estadoMatriculaId = null,
         $searchTerm = '')
     {
         $qb = $this->createQueryBuilder('m')
@@ -70,9 +70,9 @@ class MatriculaRepository extends ServiceEntityRepository
                 ->setParameter('paralelo', $paraleloId);
         }
 
-        if (!empty($estado)) {
-            $qb->andWhere('m.estado = :estado')
-                ->setParameter('estado', $estado);
+        if (!empty($estadoMatriculaId)) {
+            $qb->andWhere('m.estadoMatricula = :estado_matricula')
+                ->setParameter('estado_matricula', $estadoMatriculaId);
         }
 
         if (!empty($searchTerm)) {

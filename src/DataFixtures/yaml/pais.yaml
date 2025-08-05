@@ -1,0 +1,1344 @@
+paises:
+  pais4:
+    codigoNumerico: 4
+    codigoAlpha2: 'AF'
+    codigoAlpha3: 'AFG'
+    nombreComun: 'Afganistán'
+    nacionalidad: 'Afgano'
+
+  pais8:
+    codigoNumerico: 8
+    codigoAlpha2: 'AL'
+    codigoAlpha3: 'ALB'
+    nombreComun: 'Albania'
+    nacionalidad: 'Albanés'
+
+  pais12:
+    codigoNumerico: 12
+    codigoAlpha2: 'DZ'
+    codigoAlpha3: 'DZA'
+    nombreComun: 'Argelia'
+    nacionalidad: 'Argelino'
+
+  pais20:
+    codigoNumerico: 20
+    codigoAlpha2: 'AD'
+    codigoAlpha3: 'AND'
+    nombreComun: 'Andorra'
+    nacionalidad: 'Andorrano'
+
+  pais24:
+    codigoNumerico: 24
+    codigoAlpha2: 'AO'
+    codigoAlpha3: 'AGO'
+    nombreComun: 'Angola'
+    nacionalidad: 'Angoleño'
+
+  pais28:
+    codigoNumerico: 28
+    codigoAlpha2: 'AG'
+    codigoAlpha3: 'ATG'
+    nombreComun: 'Antigua y Barbuda'
+    nacionalidad: 'Antiguano'
+
+  pais32:
+    codigoNumerico: 32
+    codigoAlpha2: 'AR'
+    codigoAlpha3: 'ARG'
+    nombreComun: 'Argentina'
+    nacionalidad: 'Argentino'
+
+  pais36:
+    codigoNumerico: 36
+    codigoAlpha2: 'AU'
+    codigoAlpha3: 'AUS'
+    nombreComun: 'Australia'
+    nacionalidad: 'Australiano'
+
+  pais40:
+    codigoNumerico: 40
+    codigoAlpha2: 'AT'
+    codigoAlpha3: 'AUT'
+    nombreComun: 'Austria'
+    nacionalidad: 'Austriaco'
+
+  pais44:
+    codigoNumerico: 44
+    codigoAlpha2: 'BS'
+    codigoAlpha3: 'BHS'
+    nombreComun: 'Bahamas'
+    nacionalidad: 'Bahameño'
+
+  pais48:
+    codigoNumerico: 48
+    codigoAlpha2: 'BH'
+    codigoAlpha3: 'BHR'
+    nombreComun: 'Baréin'
+    nacionalidad: 'Bareiní'
+
+  pais50:
+    codigoNumerico: 50
+    codigoAlpha2: 'BD'
+    codigoAlpha3: 'BGD'
+    nombreComun: 'Bangladés'
+    nacionalidad: 'Bangladesí'
+
+  pais51:
+    codigoNumerico: 51
+    codigoAlpha2: 'AM'
+    codigoAlpha3: 'ARM'
+    nombreComun: 'Armenia'
+    nacionalidad: 'Armenio'
+
+  pais52:
+    codigoNumerico: 52
+    codigoAlpha2: 'BB'
+    codigoAlpha3: 'BRB'
+    nombreComun: 'Barbados'
+    nacionalidad: 'Barbadense'
+
+  pais56:
+    codigoNumerico: 56
+    codigoAlpha2: 'BE'
+    codigoAlpha3: 'BEL'
+    nombreComun: 'Bélgica'
+    nacionalidad: 'Belga'
+
+  pais60:
+    codigoNumerico: 60
+    codigoAlpha2: 'BM'
+    codigoAlpha3: 'BMU'
+    nombreComun: 'Bermudas'
+    nacionalidad: 'Bermudeño'
+
+  pais64:
+    codigoNumerico: 64
+    codigoAlpha2: 'BT'
+    codigoAlpha3: 'BTN'
+    nombreComun: 'Bután'
+    nacionalidad: 'Butanés'
+
+  pais68:
+    codigoNumerico: 68
+    codigoAlpha2: 'BO'
+    codigoAlpha3: 'BOL'
+    nombreComun: 'Bolivia'
+    nacionalidad: 'Boliviano'
+
+  pais70:
+    codigoNumerico: 70
+    codigoAlpha2: 'BA'
+    codigoAlpha3: 'BIH'
+    nombreComun: 'Bosnia y Herzegovina'
+    nacionalidad: 'Bosnio'
+
+  pais72:
+    codigoNumerico: 72
+    codigoAlpha2: 'BW'
+    codigoAlpha3: 'BWA'
+    nombreComun: 'Botsuana'
+    nacionalidad: 'Botsuano'
+
+  pais76:
+    codigoNumerico: 76
+    codigoAlpha2: 'BR'
+    codigoAlpha3: 'BRA'
+    nombreComun: 'Brasil'
+    nacionalidad: 'Brasileño'
+
+  pais84:
+    codigoNumerico: 84
+    codigoAlpha2: 'BZ'
+    codigoAlpha3: 'BLZ'
+    nombreComun: 'Belice'
+    nacionalidad: 'Beliceño'
+
+  pais96:
+    codigoNumerico: 96
+    codigoAlpha2: 'BN'
+    codigoAlpha3: 'BRN'
+    nombreComun: 'Brunéi'
+    nacionalidad: 'Bruneano'
+
+  pais100:
+    codigoNumerico: 100
+    codigoAlpha2: 'BG'
+    codigoAlpha3: 'BGR'
+    nombreComun: 'Bulgaria'
+    nacionalidad: 'Búlgaro'
+
+  pais104:
+    codigoNumerico: 104
+    codigoAlpha2: 'MM'
+    codigoAlpha3: 'MMR'
+    nombreComun: 'Myanmar'
+    nacionalidad: 'Birmano'
+
+  pais108:
+    codigoNumerico: 108
+    codigoAlpha2: 'BI'
+    codigoAlpha3: 'BDI'
+    nombreComun: 'Burundi'
+    nacionalidad: 'Burundés'
+
+  pais112:
+    codigoNumerico: 112
+    codigoAlpha2: 'BY'
+    codigoAlpha3: 'BLR'
+    nombreComun: 'Belarús'
+    nacionalidad: 'Bielorruso'
+
+  pais116:
+    codigoNumerico: 116
+    codigoAlpha2: 'KH'
+    codigoAlpha3: 'KHM'
+    nombreComun: 'Camboya'
+    nacionalidad: 'Camboyano'
+
+  pais120:
+    codigoNumerico: 120
+    codigoAlpha2: 'CM'
+    codigoAlpha3: 'CMR'
+    nombreComun: 'Camerún'
+    nacionalidad: 'Camerunés'
+
+  pais124:
+    codigoNumerico: 124
+    codigoAlpha2: 'CA'
+    codigoAlpha3: 'CAN'
+    nombreComun: 'Canadá'
+    nacionalidad: 'Canadiense'
+
+  pais140:
+    codigoNumerico: 140
+    codigoAlpha2: 'CF'
+    codigoAlpha3: 'CAF'
+    nombreComun: 'República Centroafricana'
+    nacionalidad: 'Centroafricano'
+
+  pais152:
+    codigoNumerico: 152
+    codigoAlpha2: 'CL'
+    codigoAlpha3: 'CHL'
+    nombreComun: 'Chile'
+    nacionalidad: 'Chileno'
+
+  pais156:
+    codigoNumerico: 156
+    codigoAlpha2: 'CN'
+    codigoAlpha3: 'CHN'
+    nombreComun: 'China'
+    nacionalidad: 'Chino'
+
+  pais170:
+    codigoNumerico: 170
+    codigoAlpha2: 'CO'
+    codigoAlpha3: 'COL'
+    nombreComun: 'Colombia'
+    nacionalidad: 'Colombiano'
+
+  pais188:
+    codigoNumerico: 188
+    codigoAlpha2: 'CR'
+    codigoAlpha3: 'CRI'
+    nombreComun: 'Costa Rica'
+    nacionalidad: 'Costarricense'
+
+  pais191:
+    codigoNumerico: 191
+    codigoAlpha2: 'HR'
+    codigoAlpha3: 'HRV'
+    nombreComun: 'Croacia'
+    nacionalidad: 'Croata'
+
+  pais192:
+    codigoNumerico: 192
+    codigoAlpha2: 'CU'
+    codigoAlpha3: 'CUB'
+    nombreComun: 'Cuba'
+    nacionalidad: 'Cubano'
+
+  pais196:
+    codigoNumerico: 196
+    codigoAlpha2: 'CY'
+    codigoAlpha3: 'CYP'
+    nombreComun: 'Chipre'
+    nacionalidad: 'Chipriota'
+
+  pais203:
+    codigoNumerico: 203
+    codigoAlpha2: 'CZ'
+    codigoAlpha3: 'CZE'
+    nombreComun: 'República Checa'
+    nacionalidad: 'Checo'
+
+  pais208:
+    codigoNumerico: 208
+    codigoAlpha2: 'DK'
+    codigoAlpha3: 'DNK'
+    nombreComun: 'Dinamarca'
+    nacionalidad: 'Danés'
+
+  pais214:
+    codigoNumerico: 214
+    codigoAlpha2: 'DO'
+    codigoAlpha3: 'DOM'
+    nombreComun: 'República Dominicana'
+    nacionalidad: 'Dominicano'
+
+  pais218:
+    codigoNumerico: 218
+    codigoAlpha2: 'EC'
+    codigoAlpha3: 'ECU'
+    nombreComun: 'Ecuador'
+    nacionalidad: 'Ecuatoriano'
+
+  pais222:
+    codigoNumerico: 222
+    codigoAlpha2: 'SV'
+    codigoAlpha3: 'SLV'
+    nombreComun: 'El Salvador'
+    nacionalidad: 'Salvadoreño'
+
+  pais226:
+    codigoNumerico: 226
+    codigoAlpha2: 'GQ'
+    codigoAlpha3: 'GNQ'
+    nombreComun: 'Guinea Ecuatorial'
+    nacionalidad: 'Ecuatoguineano'
+
+  pais231:
+    codigoNumerico: 231
+    codigoAlpha2: 'ET'
+    codigoAlpha3: 'ETH'
+    nombreComun: 'Etiopía'
+    nacionalidad: 'Etíope'
+
+  pais232:
+    codigoNumerico: 232
+    codigoAlpha2: 'ER'
+    codigoAlpha3: 'ERI'
+    nombreComun: 'Eritrea'
+    nacionalidad: 'Eritreo'
+
+  pais233:
+    codigoNumerico: 233
+    codigoAlpha2: 'EE'
+    codigoAlpha3: 'EST'
+    nombreComun: 'Estonia'
+    nacionalidad: 'Estonio'
+
+  pais242:
+    codigoNumerico: 242
+    codigoAlpha2: 'FJ'
+    codigoAlpha3: 'FJI'
+    nombreComun: 'Fiyi'
+    nacionalidad: 'Fiyiano'
+
+  pais246:
+    codigoNumerico: 246
+    codigoAlpha2: 'FI'
+    codigoAlpha3: 'FIN'
+    nombreComun: 'Finlandia'
+    nacionalidad: 'Finlandés'
+
+  pais250:
+    codigoNumerico: 250
+    codigoAlpha2: 'FR'
+    codigoAlpha3: 'FRA'
+    nombreComun: 'Francia'
+    nacionalidad: 'Francés'
+
+  pais266:
+    codigoNumerico: 266
+    codigoAlpha2: 'GA'
+    codigoAlpha3: 'GAB'
+    nombreComun: 'Gabón'
+    nacionalidad: 'Gabonés'
+
+  pais268:
+    codigoNumerico: 268
+    codigoAlpha2: 'GE'
+    codigoAlpha3: 'GEO'
+    nombreComun: 'Georgia'
+    nacionalidad: 'Georgiano'
+
+  pais276:
+    codigoNumerico: 276
+    codigoAlpha2: 'DE'
+    codigoAlpha3: 'DEU'
+    nombreComun: 'Alemania'
+    nacionalidad: 'Alemán'
+
+  pais288:
+    codigoNumerico: 288
+    codigoAlpha2: 'GH'
+    codigoAlpha3: 'GHA'
+    nombreComun: 'Ghana'
+    nacionalidad: 'Ghanés'
+
+  pais300:
+    codigoNumerico: 300
+    codigoAlpha2: 'GR'
+    codigoAlpha3: 'GRC'
+    nombreComun: 'Grecia'
+    nacionalidad: 'Griego'
+
+  pais320:
+    codigoNumerico: 320
+    codigoAlpha2: 'GT'
+    codigoAlpha3: 'GTM'
+    nombreComun: 'Guatemala'
+    nacionalidad: 'Guatemalteco'
+
+  pais324:
+    codigoNumerico: 324
+    codigoAlpha2: 'GN'
+    codigoAlpha3: 'GIN'
+    nombreComun: 'Guinea'
+    nacionalidad: 'Guineano'
+
+  pais328:
+    codigoNumerico: 328
+    codigoAlpha2: 'GY'
+    codigoAlpha3: 'GUY'
+    nombreComun: 'Guyana'
+    nacionalidad: 'Guyanés'
+
+  pais332:
+    codigoNumerico: 332
+    codigoAlpha2: 'HT'
+    codigoAlpha3: 'HTI'
+    nombreComun: 'Haití'
+    nacionalidad: 'Haitiano'
+
+  pais340:
+    codigoNumerico: 340
+    codigoAlpha2: 'HN'
+    codigoAlpha3: 'HND'
+    nombreComun: 'Honduras'
+    nacionalidad: 'Hondureño'
+
+  pais348:
+    codigoNumerico: 348
+    codigoAlpha2: 'HU'
+    codigoAlpha3: 'HUN'
+    nombreComun: 'Hungría'
+    nacionalidad: 'Húngaro'
+
+  pais352:
+    codigoNumerico: 352
+    codigoAlpha2: 'IS'
+    codigoAlpha3: 'ISL'
+    nombreComun: 'Islandia'
+    nacionalidad: 'Islandés'
+
+  pais356:
+    codigoNumerico: 356
+    codigoAlpha2: 'IN'
+    codigoAlpha3: 'IND'
+    nombreComun: 'India'
+    nacionalidad: 'Indio'
+
+  pais360:
+    codigoNumerico: 360
+    codigoAlpha2: 'ID'
+    codigoAlpha3: 'IDN'
+    nombreComun: 'Indonesia'
+    nacionalidad: 'Indonesio'
+
+  pais364:
+    codigoNumerico: 364
+    codigoAlpha2: 'IR'
+    codigoAlpha3: 'IRN'
+    nombreComun: 'Irán'
+    nacionalidad: 'Iraní'
+
+  pais368:
+    codigoNumerico: 368
+    codigoAlpha2: 'IQ'
+    codigoAlpha3: 'IRQ'
+    nombreComun: 'Irak'
+    nacionalidad: 'Iraquí'
+
+  pais372:
+    codigoNumerico: 372
+    codigoAlpha2: 'IE'
+    codigoAlpha3: 'IRL'
+    nombreComun: 'Irlanda'
+    nacionalidad: 'Irlandés'
+
+  pais376:
+    codigoNumerico: 376
+    codigoAlpha2: 'IL'
+    codigoAlpha3: 'ISR'
+    nombreComun: 'Israel'
+    nacionalidad: 'Israelí'
+
+  pais380:
+    codigoNumerico: 380
+    codigoAlpha2: 'IT'
+    codigoAlpha3: 'ITA'
+    nombreComun: 'Italia'
+    nacionalidad: 'Italiano'
+
+  pais384:
+    codigoNumerico: 384
+    codigoAlpha2: 'CI'
+    codigoAlpha3: 'CIV'
+    nombreComun: 'Costa de Marfil'
+    nacionalidad: 'Marfileño'
+
+  pais388:
+    codigoNumerico: 388
+    codigoAlpha2: 'JM'
+    codigoAlpha3: 'JAM'
+    nombreComun: 'Jamaica'
+    nacionalidad: 'Jamaiquino'
+
+  pais392:
+    codigoNumerico: 392
+    codigoAlpha2: 'JP'
+    codigoAlpha3: 'JPN'
+    nombreComun: 'Japón'
+    nacionalidad: 'Japonés'
+
+  pais398:
+    codigoNumerico: 398
+    codigoAlpha2: 'KZ'
+    codigoAlpha3: 'KAZ'
+    nombreComun: 'Kazajistán'
+    nacionalidad: 'Kazajo'
+
+  pais400:
+    codigoNumerico: 400
+    codigoAlpha2: 'JO'
+    codigoAlpha3: 'JOR'
+    nombreComun: 'Jordania'
+    nacionalidad: 'Jordano'
+
+  pais404:
+    codigoNumerico: 404
+    codigoAlpha2: 'KE'
+    codigoAlpha3: 'KEN'
+    nombreComun: 'Kenia'
+    nacionalidad: 'Keniata'
+
+  pais408:
+    codigoNumerico: 408
+    codigoAlpha2: 'KP'
+    codigoAlpha3: 'PRK'
+    nombreComun: 'Corea del Norte'
+    nacionalidad: 'Norcoreano'
+
+  pais410:
+    codigoNumerico: 410
+    codigoAlpha2: 'KR'
+    codigoAlpha3: 'KOR'
+    nombreComun: 'Corea del Sur'
+    nacionalidad: 'Surcoreano'
+
+  pais414:
+    codigoNumerico: 414
+    codigoAlpha2: 'KW'
+    codigoAlpha3: 'KWT'
+    nombreComun: 'Kuwait'
+    nacionalidad: 'Kuwaití'
+
+  pais417:
+    codigoNumerico: 417
+    codigoAlpha2: 'KG'
+    codigoAlpha3: 'KGZ'
+    nombreComun: 'Kirguistán'
+    nacionalidad: 'Kirguís'
+
+  pais418:
+    codigoNumerico: 418
+    codigoAlpha2: 'LA'
+    codigoAlpha3: 'LAO'
+    nombreComun: 'Laos'
+    nacionalidad: 'Laosiano'
+
+  pais422:
+    codigoNumerico: 422
+    codigoAlpha2: 'LB'
+    codigoAlpha3: 'LBN'
+    nombreComun: 'Líbano'
+    nacionalidad: 'Libanés'
+
+  pais426:
+    codigoNumerico: 426
+    codigoAlpha2: 'LS'
+    codigoAlpha3: 'LSO'
+    nombreComun: 'Lesoto'
+    nacionalidad: 'Lesotense'
+
+  pais428:
+    codigoNumerico: 428
+    codigoAlpha2: 'LV'
+    codigoAlpha3: 'LVA'
+    nombreComun: 'Letonia'
+    nacionalidad: 'Letón'
+
+  pais430:
+    codigoNumerico: 430
+    codigoAlpha2: 'LR'
+    codigoAlpha3: 'LBR'
+    nombreComun: 'Liberia'
+    nacionalidad: 'Liberiano'
+
+  pais434:
+    codigoNumerico: 434
+    codigoAlpha2: 'LY'
+    codigoAlpha3: 'LBY'
+    nombreComun: 'Libia'
+    nacionalidad: 'Libio'
+
+  pais438:
+    codigoNumerico: 438
+    codigoAlpha2: 'LI'
+    codigoAlpha3: 'LIE'
+    nombreComun: 'Liechtenstein'
+    nacionalidad: 'Liechtensteiniano'
+
+  pais440:
+    codigoNumerico: 440
+    codigoAlpha2: 'LT'
+    codigoAlpha3: 'LTU'
+    nombreComun: 'Lituania'
+    nacionalidad: 'Lituano'
+
+  pais442:
+    codigoNumerico: 442
+    codigoAlpha2: 'LU'
+    codigoAlpha3: 'LUX'
+    nombreComun: 'Luxemburgo'
+    nacionalidad: 'Luxemburgués'
+
+  pais450:
+    codigoNumerico: 450
+    codigoAlpha2: 'MG'
+    codigoAlpha3: 'MDG'
+    nombreComun: 'Madagascar'
+    nacionalidad: 'Malgache'
+
+  pais454:
+    codigoNumerico: 454
+    codigoAlpha2: 'MW'
+    codigoAlpha3: 'MWI'
+    nombreComun: 'Malaui'
+    nacionalidad: 'Malauí'
+
+  pais458:
+    codigoNumerico: 458
+    codigoAlpha2: 'MY'
+    codigoAlpha3: 'MYS'
+    nombreComun: 'Malasia'
+    nacionalidad: 'Malasio'
+
+  pais462:
+    codigoNumerico: 462
+    codigoAlpha2: 'MV'
+    codigoAlpha3: 'MDV'
+    nombreComun: 'Maldivas'
+    nacionalidad: 'Maldivo'
+
+  pais466:
+    codigoNumerico: 466
+    codigoAlpha2: 'ML'
+    codigoAlpha3: 'MLI'
+    nombreComun: 'Malí'
+    nacionalidad: 'Maliense'
+
+  pais470:
+    codigoNumerico: 470
+    codigoAlpha2: 'MT'
+    codigoAlpha3: 'MLT'
+    nombreComun: 'Malta'
+    nacionalidad: 'Maltés'
+
+  pais478:
+    codigoNumerico: 478
+    codigoAlpha2: 'MR'
+    codigoAlpha3: 'MRT'
+    nombreComun: 'Mauritania'
+    nacionalidad: 'Mauritano'
+
+  pais480:
+    codigoNumerico: 480
+    codigoAlpha2: 'MU'
+    codigoAlpha3: 'MUS'
+    nombreComun: 'Mauricio'
+    nacionalidad: 'Mauriciano'
+
+  pais484:
+    codigoNumerico: 484
+    codigoAlpha2: 'MX'
+    codigoAlpha3: 'MEX'
+    nombreComun: 'México'
+    nacionalidad: 'Mexicano'
+
+  pais492:
+    codigoNumerico: 492
+    codigoAlpha2: 'MC'
+    codigoAlpha3: 'MCO'
+    nombreComun: 'Mónaco'
+    nacionalidad: 'Monegasco'
+
+  pais496:
+    codigoNumerico: 496
+    codigoAlpha2: 'MN'
+    codigoAlpha3: 'MNG'
+    nombreComun: 'Mongolia'
+    nacionalidad: 'Mongol'
+
+  pais498:
+    codigoNumerico: 498
+    codigoAlpha2: 'MD'
+    codigoAlpha3: 'MDA'
+    nombreComun: 'Moldavia'
+    nacionalidad: 'Moldavo'
+
+  pais499:
+    codigoNumerico: 499
+    codigoAlpha2: 'ME'
+    codigoAlpha3: 'MNE'
+    nombreComun: 'Montenegro'
+    nacionalidad: 'Montenegrino'
+
+  pais504:
+    codigoNumerico: 504
+    codigoAlpha2: 'MA'
+    codigoAlpha3: 'MAR'
+    nombreComun: 'Marruecos'
+    nacionalidad: 'Marroquí'
+
+  pais508:
+    codigoNumerico: 508
+    codigoAlpha2: 'MZ'
+    codigoAlpha3: 'MOZ'
+    nombreComun: 'Mozambique'
+    nacionalidad: 'Mozambiqueño'
+
+  pais512:
+    codigoNumerico: 512
+    codigoAlpha2: 'OM'
+    codigoAlpha3: 'OMN'
+    nombreComun: 'Omán'
+    nacionalidad: 'Omaní'
+
+  pais516:
+    codigoNumerico: 516
+    codigoAlpha2: 'NA'
+    codigoAlpha3: 'NAM'
+    nombreComun: 'Namibia'
+    nacionalidad: 'Namibio'
+
+  pais520:
+    codigoNumerico: 520
+    codigoAlpha2: 'NR'
+    codigoAlpha3: 'NRU'
+    nombreComun: 'Nauru'
+    nacionalidad: 'Nauruano'
+
+  pais524:
+    codigoNumerico: 524
+    codigoAlpha2: 'NP'
+    codigoAlpha3: 'NPL'
+    nombreComun: 'Nepal'
+    nacionalidad: 'Nepalí'
+
+  pais528:
+    codigoNumerico: 528
+    codigoAlpha2: 'NL'
+    codigoAlpha3: 'NLD'
+    nombreComun: 'Países Bajos'
+    nacionalidad: 'Neerlandés'
+
+  pais540:
+    codigoNumerico: 540
+    codigoAlpha2: 'NC'
+    codigoAlpha3: 'NCL'
+    nombreComun: 'Nueva Caledonia'
+    nacionalidad: 'Neocaledonio'
+
+  pais548:
+    codigoNumerico: 548
+    codigoAlpha2: 'VU'
+    codigoAlpha3: 'VUT'
+    nombreComun: 'Vanuatu'
+    nacionalidad: 'Vanuatuense'
+
+  pais554:
+    codigoNumerico: 554
+    codigoAlpha2: 'NZ'
+    codigoAlpha3: 'NZL'
+    nombreComun: 'Nueva Zelanda'
+    nacionalidad: 'Neozelandés'
+
+  pais558:
+    codigoNumerico: 558
+    codigoAlpha2: 'NI'
+    codigoAlpha3: 'NIC'
+    nombreComun: 'Nicaragua'
+    nacionalidad: 'Nicaragüense'
+
+  pais562:
+    codigoNumerico: 562
+    codigoAlpha2: 'NE'
+    codigoAlpha3: 'NER'
+    nombreComun: 'Níger'
+    nacionalidad: 'Nigerino'
+
+  pais566:
+    codigoNumerico: 566
+    codigoAlpha2: 'NG'
+    codigoAlpha3: 'NGA'
+    nombreComun: 'Nigeria'
+    nacionalidad: 'Nigeriano'
+
+  pais570:
+    codigoNumerico: 570
+    codigoAlpha2: 'NU'
+    codigoAlpha3: 'NIU'
+    nombreComun: 'Niue'
+    nacionalidad: 'Niueño'
+
+  pais578:
+    codigoNumerico: 578
+    codigoAlpha2: 'NO'
+    codigoAlpha3: 'NOR'
+    nombreComun: 'Noruega'
+    nacionalidad: 'Noruego'
+
+  pais580:
+    codigoNumerico: 580
+    codigoAlpha2: 'MP'
+    codigoAlpha3: 'MNP'
+    nombreComun: 'Islas Marianas del Norte'
+    nacionalidad: 'Marianense'
+
+  pais583:
+    codigoNumerico: 583
+    codigoAlpha2: 'FM'
+    codigoAlpha3: 'FSM'
+    nombreComun: 'Micronesia'
+    nacionalidad: 'Micronesio'
+
+  pais584:
+    codigoNumerico: 584
+    codigoAlpha2: 'MH'
+    codigoAlpha3: 'MHL'
+    nombreComun: 'Islas Marshall'
+    nacionalidad: 'Marshalés'
+
+  pais585:
+    codigoNumerico: 585
+    codigoAlpha2: 'PW'
+    codigoAlpha3: 'PLW'
+    nombreComun: 'Palaos'
+    nacionalidad: 'Palauano'
+
+  pais586:
+    codigoNumerico: 586
+    codigoAlpha2: 'PK'
+    codigoAlpha3: 'PAK'
+    nombreComun: 'Pakistán'
+    nacionalidad: 'Pakistaní'
+
+  pais591:
+    codigoNumerico: 591
+    codigoAlpha2: 'PA'
+    codigoAlpha3: 'PAN'
+    nombreComun: 'Panamá'
+    nacionalidad: 'Panameño'
+
+  pais598:
+    codigoNumerico: 598
+    codigoAlpha2: 'PG'
+    codigoAlpha3: 'PNG'
+    nombreComun: 'Papúa Nueva Guinea'
+    nacionalidad: 'Papú'
+
+  pais600:
+    codigoNumerico: 600
+    codigoAlpha2: 'PY'
+    codigoAlpha3: 'PRY'
+    nombreComun: 'Paraguay'
+    nacionalidad: 'Paraguayo'
+
+  pais604:
+    codigoNumerico: 604
+    codigoAlpha2: 'PE'
+    codigoAlpha3: 'PER'
+    nombreComun: 'Perú'
+    nacionalidad: 'Peruano'
+
+  pais608:
+    codigoNumerico: 608
+    codigoAlpha2: 'PH'
+    codigoAlpha3: 'PHL'
+    nombreComun: 'Filipinas'
+    nacionalidad: 'Filipino'
+
+  pais616:
+    codigoNumerico: 616
+    codigoAlpha2: 'PL'
+    codigoAlpha3: 'POL'
+    nombreComun: 'Polonia'
+    nacionalidad: 'Polaco'
+
+  pais620:
+    codigoNumerico: 620
+    codigoAlpha2: 'PT'
+    codigoAlpha3: 'PRT'
+    nombreComun: 'Portugal'
+    nacionalidad: 'Portugués'
+
+  pais624:
+    codigoNumerico: 624
+    codigoAlpha2: 'GW'
+    codigoAlpha3: 'GNB'
+    nombreComun: 'Guinea-Bisáu'
+    nacionalidad: 'Guineano'
+
+  pais626:
+    codigoNumerico: 626
+    codigoAlpha2: 'TL'
+    codigoAlpha3: 'TLS'
+    nombreComun: 'Timor Oriental'
+    nacionalidad: 'Timorense'
+
+  pais630:
+    codigoNumerico: 630
+    codigoAlpha2: 'PR'
+    codigoAlpha3: 'PRI'
+    nombreComun: 'Puerto Rico'
+    nacionalidad: 'Puertorriqueño'
+
+  pais634:
+    codigoNumerico: 634
+    codigoAlpha2: 'QA'
+    codigoAlpha3: 'QAT'
+    nombreComun: 'Catar'
+    nacionalidad: 'Catarí'
+
+  pais642:
+    codigoNumerico: 642
+    codigoAlpha2: 'RO'
+    codigoAlpha3: 'ROU'
+    nombreComun: 'Rumanía'
+    nacionalidad: 'Rumano'
+
+  pais643:
+    codigoNumerico: 643
+    codigoAlpha2: 'RU'
+    codigoAlpha3: 'RUS'
+    nombreComun: 'Rusia'
+    nacionalidad: 'Ruso'
+
+  pais646:
+    codigoNumerico: 646
+    codigoAlpha2: 'RW'
+    codigoAlpha3: 'RWA'
+    nombreComun: 'Ruanda'
+    nacionalidad: 'Ruandés'
+
+  pais659:
+    codigoNumerico: 659
+    codigoAlpha2: 'KN'
+    codigoAlpha3: 'KNA'
+    nombreComun: 'San Cristóbal y Nieves'
+    nacionalidad: 'Cristobaleño'
+
+  pais662:
+    codigoNumerico: 662
+    codigoAlpha2: 'LC'
+    codigoAlpha3: 'LCA'
+    nombreComun: 'Santa Lucía'
+    nacionalidad: 'Santalucense'
+
+  pais670:
+    codigoNumerico: 670
+    codigoAlpha2: 'VC'
+    codigoAlpha3: 'VCT'
+    nombreComun: 'San Vicente y las Granadinas'
+    nacionalidad: 'Vincentino'
+
+  pais674:
+    codigoNumerico: 674
+    codigoAlpha2: 'SM'
+    codigoAlpha3: 'SMR'
+    nombreComun: 'San Marino'
+    nacionalidad: 'Sanmarinense'
+
+  pais678:
+    codigoNumerico: 678
+    codigoAlpha2: 'ST'
+    codigoAlpha3: 'STP'
+    nombreComun: 'Santo Tomé y Príncipe'
+    nacionalidad: 'Santotomense'
+
+  pais682:
+    codigoNumerico: 682
+    codigoAlpha2: 'SA'
+    codigoAlpha3: 'SAU'
+    nombreComun: 'Arabia Saudita'
+    nacionalidad: 'Saudí'
+
+  pais686:
+    codigoNumerico: 686
+    codigoAlpha2: 'SN'
+    codigoAlpha3: 'SEN'
+    nombreComun: 'Senegal'
+    nacionalidad: 'Senegalés'
+
+  pais688:
+    codigoNumerico: 688
+    codigoAlpha2: 'RS'
+    codigoAlpha3: 'SRB'
+    nombreComun: 'Serbia'
+    nacionalidad: 'Serbio'
+
+  pais690:
+    codigoNumerico: 690
+    codigoAlpha2: 'SC'
+    codigoAlpha3: 'SYC'
+    nombreComun: 'Seychelles'
+    nacionalidad: 'Seychellense'
+
+  pais694:
+    codigoNumerico: 694
+    codigoAlpha2: 'SL'
+    codigoAlpha3: 'SLE'
+    nombreComun: 'Sierra Leona'
+    nacionalidad: 'Sierraleonés'
+
+  pais702:
+    codigoNumerico: 702
+    codigoAlpha2: 'SG'
+    codigoAlpha3: 'SGP'
+    nombreComun: 'Singapur'
+    nacionalidad: 'Singapurense'
+
+  pais703:
+    codigoNumerico: 703
+    codigoAlpha2: 'SK'
+    codigoAlpha3: 'SVK'
+    nombreComun: 'Eslovaquia'
+    nacionalidad: 'Eslovaco'
+
+  pais704:
+    codigoNumerico: 704
+    codigoAlpha2: 'VN'
+    codigoAlpha3: 'VNM'
+    nombreComun: 'Vietnam'
+    nacionalidad: 'Vietnamita'
+
+  pais705:
+    codigoNumerico: 705
+    codigoAlpha2: 'SI'
+    codigoAlpha3: 'SVN'
+    nombreComun: 'Eslovenia'
+    nacionalidad: 'Esloveno'
+
+  pais706:
+    codigoNumerico: 706
+    codigoAlpha2: 'SO'
+    codigoAlpha3: 'SOM'
+    nombreComun: 'Somalia'
+    nacionalidad: 'Somalí'
+
+  pais710:
+    codigoNumerico: 710
+    codigoAlpha2: 'ZA'
+    codigoAlpha3: 'ZAF'
+    nombreComun: 'Sudáfrica'
+    nacionalidad: 'Sudafricano'
+
+  pais716:
+    codigoNumerico: 716
+    codigoAlpha2: 'ZW'
+    codigoAlpha3: 'ZWE'
+    nombreComun: 'Zimbabue'
+    nacionalidad: 'Zimbabuense'
+
+  pais724:
+    codigoNumerico: 724
+    codigoAlpha2: 'ES'
+    codigoAlpha3: 'ESP'
+    nombreComun: 'España'
+    nacionalidad: 'Español'
+
+  pais728:
+    codigoNumerico: 728
+    codigoAlpha2: 'SS'
+    codigoAlpha3: 'SSD'
+    nombreComun: 'Sudán del Sur'
+    nacionalidad: 'Sursudanés'
+
+  pais729:
+    codigoNumerico: 729
+    codigoAlpha2: 'SD'
+    codigoAlpha3: 'SDN'
+    nombreComun: 'Sudán'
+    nacionalidad: 'Sudanés'
+
+  pais740:
+    codigoNumerico: 740
+    codigoAlpha2: 'SR'
+    codigoAlpha3: 'SUR'
+    nombreComun: 'Surinam'
+    nacionalidad: 'Surinamés'
+
+  pais748:
+    codigoNumerico: 748
+    codigoAlpha2: 'SZ'
+    codigoAlpha3: 'SWZ'
+    nombreComun: 'Suazilandia'
+    nacionalidad: 'Suazi'
+
+  pais752:
+    codigoNumerico: 752
+    codigoAlpha2: 'SE'
+    codigoAlpha3: 'SWE'
+    nombreComun: 'Suecia'
+    nacionalidad: 'Sueco'
+
+  pais756:
+    codigoNumerico: 756
+    codigoAlpha2: 'CH'
+    codigoAlpha3: 'CHE'
+    nombreComun: 'Suiza'
+    nacionalidad: 'Suizo'
+
+  pais760:
+    codigoNumerico: 760
+    codigoAlpha2: 'SY'
+    codigoAlpha3: 'SYR'
+    nombreComun: 'Siria'
+    nacionalidad: 'Sirio'
+
+  pais762:
+    codigoNumerico: 762
+    codigoAlpha2: 'TJ'
+    codigoAlpha3: 'TJK'
+    nombreComun: 'Tayikistán'
+    nacionalidad: 'Tayiko'
+
+  pais764:
+    codigoNumerico: 764
+    codigoAlpha2: 'TH'
+    codigoAlpha3: 'THA'
+    nombreComun: 'Tailandia'
+    nacionalidad: 'Tailandés'
+
+  pais768:
+    codigoNumerico: 768
+    codigoAlpha2: 'TG'
+    codigoAlpha3: 'TGO'
+    nombreComun: 'Togo'
+    nacionalidad: 'Togolés'
+
+  pais772:
+    codigoNumerico: 772
+    codigoAlpha2: 'TK'
+    codigoAlpha3: 'TKL'
+    nombreComun: 'Tokelau'
+    nacionalidad: 'Tokelauano'
+
+  pais776:
+    codigoNumerico: 776
+    codigoAlpha2: 'TO'
+    codigoAlpha3: 'TON'
+    nombreComun: 'Tonga'
+    nacionalidad: 'Tongano'
+
+  pais780:
+    codigoNumerico: 780
+    codigoAlpha2: 'TT'
+    codigoAlpha3: 'TTO'
+    nombreComun: 'Trinidad y Tobago'
+    nacionalidad: 'Trinitense'
+
+  pais784:
+    codigoNumerico: 784
+    codigoAlpha2: 'AE'
+    codigoAlpha3: 'ARE'
+    nombreComun: 'Emiratos Árabes Unidos'
+    nacionalidad: 'Emiratí'
+
+  pais788:
+    codigoNumerico: 788
+    codigoAlpha2: 'TN'
+    codigoAlpha3: 'TUN'
+    nombreComun: 'Túnez'
+    nacionalidad: 'Tunecino'
+
+  pais792:
+    codigoNumerico: 792
+    codigoAlpha2: 'TR'
+    codigoAlpha3: 'TUR'
+    nombreComun: 'Turquía'
+    nacionalidad: 'Turco'
+
+  pais795:
+    codigoNumerico: 795
+    codigoAlpha2: 'TM'
+    codigoAlpha3: 'TKM'
+    nombreComun: 'Turkmenistán'
+    nacionalidad: 'Turcomano'
+
+  pais796:
+    codigoNumerico: 796
+    codigoAlpha2: 'TC'
+    codigoAlpha3: 'TCA'
+    nombreComun: 'Islas Turcas y Caicos'
+    nacionalidad: 'Turcocaiqueño'
+
+  pais798:
+    codigoNumerico: 798
+    codigoAlpha2: 'TV'
+    codigoAlpha3: 'TUV'
+    nombreComun: 'Tuvalu'
+    nacionalidad: 'Tuvaluano'
+
+  pais800:
+    codigoNumerico: 800
+    codigoAlpha2: 'UG'
+    codigoAlpha3: 'UGA'
+    nombreComun: 'Uganda'
+    nacionalidad: 'Ugandés'
+
+  pais804:
+    codigoNumerico: 804
+    codigoAlpha2: 'UA'
+    codigoAlpha3: 'UKR'
+    nombreComun: 'Ucrania'
+    nacionalidad: 'Ucraniano'
+
+  pais807:
+    codigoNumerico: 807
+    codigoAlpha2: 'MK'
+    codigoAlpha3: 'MKD'
+    nombreComun: 'Macedonia del Norte'
+    nacionalidad: 'Macedonio'
+
+  pais818:
+    codigoNumerico: 818
+    codigoAlpha2: 'EG'
+    codigoAlpha3: 'EGY'
+    nombreComun: 'Egipto'
+    nacionalidad: 'Egipcio'
+
+  pais826:
+    codigoNumerico: 826
+    codigoAlpha2: 'GB'
+    codigoAlpha3: 'GBR'
+    nombreComun: 'Reino Unido'
+    nacionalidad: 'Británico'
+
+  pais831:
+    codigoNumerico: 831
+    codigoAlpha2: 'GG'
+    codigoAlpha3: 'GGY'
+    nombreComun: 'Guernsey'
+    nacionalidad: 'Guernesey'
+
+  pais832:
+    codigoNumerico: 832
+    codigoAlpha2: 'JE'
+    codigoAlpha3: 'JEY'
+    nombreComun: 'Jersey'
+    nacionalidad: 'Jersey'
+
+  pais833:
+    codigoNumerico: 833
+    codigoAlpha2: 'IM'
+    codigoAlpha3: 'IMN'
+    nombreComun: 'Isla de Man'
+    nacionalidad: 'Manés'
+
+  pais834:
+    codigoNumerico: 834
+    codigoAlpha2: 'TZ'
+    codigoAlpha3: 'TZA'
+    nombreComun: 'Tanzania'
+    nacionalidad: 'Tanzano'
+
+  pais840:
+    codigoNumerico: 840
+    codigoAlpha2: 'US'
+    codigoAlpha3: 'USA'
+    nombreComun: 'Estados Unidos'
+    nacionalidad: 'Estadounidense'
+
+  pais850:
+    codigoNumerico: 850
+    codigoAlpha2: 'VI'
+    codigoAlpha3: 'VIR'
+    nombreComun: 'Islas Vírgenes de los Estados Unidos'
+    nacionalidad: 'Virgenense'
+
+  pais854:
+    codigoNumerico: 854
+    codigoAlpha2: 'BF'
+    codigoAlpha3: 'BFA'
+    nombreComun: 'Burkina Faso'
+    nacionalidad: 'Burkinés'
+
+  pais858:
+    codigoNumerico: 858
+    codigoAlpha2: 'UY'
+    codigoAlpha3: 'URY'
+    nombreComun: 'Uruguay'
+    nacionalidad: 'Uruguayo'
+
+  pais860:
+    codigoNumerico: 860
+    codigoAlpha2: 'UZ'
+    codigoAlpha3: 'UZB'
+    nombreComun: 'Uzbekistán'
+    nacionalidad: 'Uzbeko'
+
+  pais862:
+    codigoNumerico: 862
+    codigoAlpha2: 'VE'
+    codigoAlpha3: 'VEN'
+    nombreComun: 'Venezuela'
+    nacionalidad: 'Venezolano'
+
+  pais876:
+    codigoNumerico: 876
+    codigoAlpha2: 'WF'
+    codigoAlpha3: 'WLF'
+    nombreComun: 'Wallis y Futuna'
+    nacionalidad: 'Wallisiano'
+
+  pais882:
+    codigoNumerico: 882
+    codigoAlpha2: 'WS'
+    codigoAlpha3: 'WSM'
+    nombreComun: 'Samoa'
+    nacionalidad: 'Samoano'
+
+  pais887:
+    codigoNumerico: 887
+    codigoAlpha2: 'YE'
+    codigoAlpha3: 'YEM'
+    nombreComun: 'Yemen'
+    nacionalidad: 'Yemení'
+
+  pais894:
+    codigoNumerico: 894
+    codigoAlpha2: 'ZM'
+    codigoAlpha3: 'ZMB'
+    nombreComun: 'Zambia'
+    nacionalidad: 'Zambiano'
+
+  pais895:
+    codigoNumerico: 895
+    codigoAlpha2: 'ZW'
+    codigoAlpha3: 'ZWE'
+    nombreComun: 'Zimbabue'
+    nacionalidad: 'Zimbabuense'

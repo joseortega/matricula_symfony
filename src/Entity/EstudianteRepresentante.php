@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use App\Repository\EstudianteRepresentanteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use function Symfony\Component\Clock\now;
 
 #[ORM\Entity(repositoryClass: EstudianteRepresentanteRepository::class)]
-
+#[ORM\HasLifecycleCallbacks] // ¡Este atributo es crucial!
 #[UniqueEntity(
     fields: ['estudiante', 'representante'],
     message: 'El estudiante ya tiene ese representate.',
@@ -29,11 +31,32 @@ class EstudianteRepresentante
     private ?Representante $representante = null;
 
     #[ORM\Column]
-    private ?bool $esPrincipal = null;
+    private ?bool $principal = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $creadoEn = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $actualizadoEn = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Parentesco $parentesco = null;
+
+    #[ORM\PrePersist]
+    public function setTimestampsOnCreate(): void
+    {
+        if ($this->creadoEn === null) {
+            $this->creadoEn = new \DateTimeImmutable();
+        }
+        $this->actualizadoEn = new \DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function setTimestampsOnUpdate(): void
+    {
+        $this->actualizadoEn = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -64,14 +87,14 @@ class EstudianteRepresentante
         return $this;
     }
 
-    public function isEsPrincipal(): ?bool
+    public function isPrincipal(): ?bool
     {
-        return $this->esPrincipal;
+        return $this->principal;
     }
 
-    public function setEsPrincipal(bool $esPrincipal): static
+    public function setPrincipal(bool $principal): static
     {
-        $this->esPrincipal = $esPrincipal;
+        $this->principal = $principal;
 
         return $this;
     }
@@ -86,5 +109,30 @@ class EstudianteRepresentante
         $this->parentesco = $parentesco;
 
         return $this;
+    }
+
+
+    public function setCreadoEn(\DateTimeImmutable $creadoEn): static
+    {
+        $this->creadoEn = $creadoEn;
+
+        return $this;
+    }
+
+    public function setActualizadoEn(\DateTimeImmutable $actualizadoEn): static
+    {
+        $this->actualizadoEn = $actualizadoEn;
+
+        return $this;
+    }
+
+    public function getCreadoEn(): ?\DateTimeImmutable
+    {
+        return $this->creadoEn;
+    }
+
+    public function getActualizadoEn(): ?\DateTimeImmutable
+    {
+        return $this->actualizadoEn;
     }
 }

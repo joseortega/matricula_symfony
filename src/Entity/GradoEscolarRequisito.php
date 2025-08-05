@@ -22,7 +22,7 @@ class GradoEscolarRequisito
     private ?Requisito $requisito = null;
 
     #[ORM\Column]
-    private ?bool $es_obligatorio = null;
+    private ?bool $obligatorio = null;
 
     public function getId(): ?int
     {
@@ -53,14 +53,14 @@ class GradoEscolarRequisito
         return $this;
     }
 
-    public function isEsObligatorio(): ?bool
+    public function isObligatorio(): ?bool
     {
-        return $this->es_obligatorio;
+        return $this->obligatorio;
     }
 
-    public function setEsObligatorio(bool $es_obligatorio): static
+    public function setObligatorio(bool $obligatorio): static
     {
-        $this->es_obligatorio = $es_obligatorio;
+        $this->obligatorio = $obligatorio;
 
         return $this;
     }

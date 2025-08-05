@@ -17,7 +17,7 @@ class UniformeTalla
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
     private ?string $descripcion = null;
 
     /**

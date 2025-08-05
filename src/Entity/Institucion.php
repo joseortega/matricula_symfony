@@ -13,15 +13,15 @@ class Institucion
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 20)]
     private ?string $codigo = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 150)]
     private ?string $denominacion = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 20)]
     private ?string $ruc = null;
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 20, nullable: true)]
     private ?string $telefono = null;
 
     #[ORM\Column(length: 255, nullable: true)]

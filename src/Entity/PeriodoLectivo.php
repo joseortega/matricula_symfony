@@ -20,18 +20,16 @@ class PeriodoLectivo
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
     private ?string $descripcion = null;
     
     #[Assert\NotBlank]
-    #[Type("DateTime<'Y-m-d'>")]
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $fechaInicio = null;
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private ?\DateTimeImmutable $fechaInicio = null;
     
     #[Assert\NotBlank]
-    #[Type("DateTime<'Y-m-d'>")]
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $fechaFin = null;
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private ?\DateTimeImmutable$fechaFin = null;
 
     #[Exclude()]
     #[ORM\OneToMany(mappedBy: 'periodoLectivo', targetEntity: Matricula::class)]
@@ -62,22 +60,22 @@ class PeriodoLectivo
         return $this;
     }
     
-    public function getFechaInicio(): ?\DateTimeInterface
+    public function getFechaInicio(): ?\DateTimeImmutable
     {
         return $this->fechaInicio;
     }
 
-    public function setFechaInicio(\DateTimeInterface $fechaInicio): void
+    public function setFechaInicio(\DateTimeImmutable $fechaInicio): void
     {
         $this->fechaInicio = $fechaInicio;
     }
     
-    public function getFechaFin(): ?\DateTimeInterface
+    public function getFechaFin(): ?\DateTimeImmutable
     {
         return $this->fechaFin;
     }
 
-    public function setFechaFin(\DateTimeInterface $fechaFin): void
+    public function setFechaFin(\DateTimeImmutable $fechaFin): void
     {
         $this->fechaFin = $fechaFin;
     }

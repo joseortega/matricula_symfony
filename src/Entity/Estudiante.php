@@ -25,35 +25,36 @@ class Estudiante
     private ?int $id = null;
     
     #[Assert\NotBlank]
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 30, unique: true)]
     private ?string $identificacion = null;
     
     #[Assert\NotBlank]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
     private ?string $apellidos = null;
     
     #[Assert\NotBlank]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
     private ?string $nombres = null;
     
     #[Assert\NotBlank]
     #[Assert\Choice(self::SEXOS)]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 10)]
     private ?string $sexo = null;
     
     #[Assert\NotBlank]
-    #[Type("DateTime<'Y-m-d'>")]
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $fechaNacimiento = null;
+    #[Type("DateTimeImmutable<'Y-m-d'>")]
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private ?\DateTimeImmutable $fechaNacimiento = null;
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(inversedBy: 'estudiantes')]
-    private ?Nacionalidad $nacionalidad = null;
-    
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Pais $paisNacionalidad = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $direccion = null;
     
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 20, nullable: true)]
     private ?string $telefono = null;
     
     #[ORM\Column(length: 255, nullable: true)]
@@ -61,6 +62,12 @@ class Estudiante
     
     #[ORM\Column]
     private ?bool $tieneDiscapacidad = false;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $creadoEn = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $actualizadoEn = null;
     
     #[ORM\ManyToOne(inversedBy: 'estudiantes')]
     #[ORM\JoinColumn(nullable: true)]
@@ -95,6 +102,21 @@ class Estudiante
         $this->nombres = mb_strtoupper($this->nombres, 'UTF-8');
         $this->apellidos = mb_strtoupper($this->apellidos, 'UTF-8');
         $this->direccion = mb_strtoupper($this->direccion, 'UTF-8');
+    }
+
+    #[ORM\PrePersist]
+    public function setTimestampsOnCreate(): void
+    {
+        if ($this->creadoEn === null) {
+            $this->creadoEn = new \DateTimeImmutable();
+        }
+        $this->actualizadoEn = new \DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function setTimestampsOnUpdate(): void
+    {
+        $this->actualizadoEn = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -150,26 +172,26 @@ class Estudiante
         return $this;
     }
     
-    public function getFechaNacimiento(): ?\DateTimeInterface
+    public function getFechaNacimiento(): ?\DateTimeImmutable
     {
         return $this->fechaNacimiento;
     }
 
-    public function setFechaNacimiento(\DateTimeInterface $fechaNacimiento): static
+    public function setFechaNacimiento(\DateTimeImmutable $fechaNacimiento): static
     {
         $this->fechaNacimiento = $fechaNacimiento;
 
         return $this;
     }
     
-    public function getNacionalidad(): ?Nacionalidad
+    public function getPaisNacionalidad(): ?Pais
     {
-        return $this->nacionalidad;
+        return $this->paisNacionalidad;
     }
 
-    public function setNacionalidad(?Nacionalidad $nacionalidad): static
+    public function setPaisNacionalidad(?Pais $paisNacionalidad): static
     {
-        $this->nacionalidad = $nacionalidad;
+        $this->paisNacionalidad = $paisNacionalidad;
 
         return $this;
     }
@@ -220,6 +242,30 @@ class Estudiante
         $this->tieneDiscapacidad = $tieneDiscapacidad;
 
         return $this;
+    }
+
+    public function setCreadoEn(\DateTimeImmutable $creadoEn): static
+    {
+        $this->creadoEn = $creadoEn;
+
+        return $this;
+    }
+
+    public function setActualizadoEn(\DateTimeImmutable $actualizadoEn): static
+    {
+        $this->actualizadoEn = $actualizadoEn;
+
+        return $this;
+    }
+
+    public function getCreadoEn(): ?\DateTimeImmutable
+    {
+        return $this->creadoEn;
+    }
+
+    public function getActualizadoEn(): ?\DateTimeImmutable
+    {
+        return $this->actualizadoEn;
     }
     
     public function getUniformeTalla(): ?UniformeTalla

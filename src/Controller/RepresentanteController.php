@@ -14,7 +14,6 @@ use JMS\Serializer\SerializerInterface;
 use JMS\Serializer\DeserializationContext;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 #[Route('api')]
 class RepresentanteController extends AbstractController

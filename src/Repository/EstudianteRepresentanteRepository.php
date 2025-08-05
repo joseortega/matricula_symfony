@@ -24,7 +24,7 @@ class EstudianteRepresentanteRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('estudianteRepresentante')
             ->andWhere('estudianteRepresentante.estudiante = :estudiante')
             ->setParameter('estudiante', $estudianteId)
-            ->orderBy('estudianteRepresentante.esPrincipal', 'DESC')
+            ->orderBy('estudianteRepresentante.principal', 'DESC')
             ->getQuery()
             ->getResult()
         ;
@@ -61,7 +61,7 @@ class EstudianteRepresentanteRepository extends ServiceEntityRepository
         $estudianteRepresentante = $this->createQueryBuilder('estudianteRepresentante')
             ->where('estudianteRepresentante.estudiante = :estudiante')
             ->andWhere('estudianteRepresentante.id != :id')
-            ->andWhere('estudianteRepresentante.esPrincipal = true')
+            ->andWhere('estudianteRepresentante.principal = true')
             ->setParameter('estudiante', $estudianteId)
             ->setParameter('id', $id)
             ->setMaxResults(1)

@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\EstadoMatricula;
 use App\Entity\Matricula;
+use App\Repository\EstadoMatriculaRepository;
+use App\Repository\EstudianteRepository;
 use App\Repository\EstudianteRepresentanteRepository;
 use App\Repository\GradoEscolarRepository;
 use App\Repository\MatriculaRepository;
@@ -37,6 +40,7 @@ class MatriculaController extends AbstractController
         private PeriodoLectivoRepository $periodoLectivoRepository,
         private GradoEscolarRepository $gradoEscolarRepository,
         private ParaleloRepository $paraleloRepository,
+        private EstadoMatriculaRepository $estadoMatriculaRepository,
     ){
     }
     
@@ -71,6 +75,12 @@ class MatriculaController extends AbstractController
     {           
         $matricula = $this->serializer->deserialize($request->getContent(), Matricula::class, 'json');
 
+        $matricula->setFechaInscripcion(new \DateTimeImmutable());
+
+        if($matricula->isLegalizada()){
+            $matricula->setFechaLegalizacion(new \DateTimeImmutable());
+        }
+
         $errors = $this->validator->validate($matricula);
 
         if (count($errors) > 0) {
@@ -97,11 +107,21 @@ class MatriculaController extends AbstractController
     public function update(int $id, Request $request): Response
     {           
         $matricula = $this->matriculaRepository->find($id);
+
+        $isLegalizada = $matricula->isLegalizada();
         
         $context = new DeserializationContext();
         
         $context->setAttribute('target', $matricula);
         $updatedMatricula = $this->serializer->deserialize($request->getContent(), Matricula::class, 'json', $context);
+
+        if($isLegalizada !== $updatedMatricula->isLegalizada()){
+            if($updatedMatricula->isLegalizada()){
+                $updatedMatricula->setFechaLegalizacion(new \DateTimeImmutable());
+            }else{
+                $updatedMatricula->setFechaLegalizacion(null);
+            }
+        }
 
         $errors = $this->validator->validate($updatedMatricula);
 
@@ -234,7 +254,7 @@ class MatriculaController extends AbstractController
         $periodoLectivoId = $request->query->get('periodo_lectivo');
         $gradoEscolarId = $request->query->get('grado_escolar');
         $paraleloId = $request->query->get('paralelo');
-        $estado = $request->query->get('estado');
+        $estadoMatriculaId = $request->query->get('estado_matricula');
         $searchTerm = $request->query->get('search_term');
 
         $periodoFilter = "Todos";
@@ -255,7 +275,11 @@ class MatriculaController extends AbstractController
             $paraleloFilter = $paraleloId ? $paralelo->getDescripcion(): "No Encontrado";
         }
 
-        $estadoFilter = $estado ?: "Todos";
+        $estadoMatriculaFilter = "Todos";
+        if($estadoMatriculaId){
+            $estadoMatricula = $this->estadoMatriculaRepository->find($estadoMatriculaId);
+            $estadoMatriculaFilter = $estadoMatriculaId ? $estadoMatricula->getDescripcion(): "No Encontrado";
+        }
 
         $searchFilter = $searchTerm ?: "Ninguno";
 
@@ -264,7 +288,7 @@ class MatriculaController extends AbstractController
             $periodoLectivoId,
             $gradoEscolarId,
             $paraleloId,
-            $estado,
+            $estadoMatriculaId,
             $searchTerm
         );
 
@@ -273,7 +297,7 @@ class MatriculaController extends AbstractController
             $periodoFilter,
             $gradoEscolarFilter,
             $paraleloFilter,
-            $estadoFilter,
+            $estadoMatriculaFilter,
             $searchFilter,
             $query->getResult()
         );
@@ -291,17 +315,25 @@ class MatriculaController extends AbstractController
         $periodoLectivoId = $request->query->get('periodo_lectivo');
         $gradoEscolarId = $request->query->get('grado_escolar');
         $paraleloId = $request->query->get('paralelo');
-        $estado = $request->query->get('estado');
+        $estadoMatriculaId = $request->query->get('estado_matricula');
         $searchTerm = $request->query->get('search_term');
 
         $query = $this->matriculaRepository->findAllQuery(
             $periodoLectivoId,
             $gradoEscolarId,
             $paraleloId,
-            $estado,
+            $estadoMatriculaId,
             $searchTerm
         );
 
         return $query;
+    }
+
+    public function legalizacion(Request $request, Matricula $matricula): void{
+        $isLegalizada= $request->query->get('legalizada');
+
+        if($isLegalizada !== $matricula->isLegalizada()){
+            if($isLegalizada){}
+        }
     }
 }

@@ -40,7 +40,7 @@ class EstudianteRepresentanteController extends AbstractController
     { 
         $estudianteRepresentante =  $this->estudianteRepresentanteRepository->findOneBy([
             "estudiante"=>$estudianteId,
-            "esPrincipal"=>true
+            "principal"=>true
         ]);     
         
          if(!$estudianteRepresentante){
@@ -57,7 +57,7 @@ class EstudianteRepresentanteController extends AbstractController
         
         $estudianteRepresentante =  $this->estudianteRepresentanteRepository->findOneBy([
             "estudiante"=>$estudianteId,
-            "esPrincipal"=>true
+            "principal"=>true
         ]);     
         
          if($estudianteRepresentante){
@@ -72,7 +72,7 @@ class EstudianteRepresentanteController extends AbstractController
     {
         $estudianteRepresentantes = $this->estudianteRepresentanteRepository->findBy([
             "estudiante"=>$estudianteId,
-            "esPrincipal"=>false
+            "principal"=>false
         ]);
 
         return new Response($this->serializer->serialize($estudianteRepresentantes, 'json'));
@@ -95,11 +95,11 @@ class EstudianteRepresentanteController extends AbstractController
             throw new BadRequestHttpException(implode(' ', $errorMessages));
         }
         
-        if($estudianteRepresentante->isEsPrincipal()===false){
+        if($estudianteRepresentante->isPrincipal()===false){
 
             $representantePrincipalExistente = $this->estudianteRepresentanteRepository->findOneBy([
                 "estudiante"=>$estudianteRepresentante->getEstudiante(),
-                "esPrincipal"=>true
+                "principal"=>true
             ]);
 
             if(!$representantePrincipalExistente){
@@ -127,7 +127,7 @@ class EstudianteRepresentanteController extends AbstractController
         /*validación en caso que el objeto actual es principal en la BD, y los datos que llega es_principal es igual a false
           no se puede setear el representante principal a false, motivos que no quedaria un representante principal*/
         $data = json_decode($request->getContent());
-        if($estudianteRepresentante->isEsPrincipal() && $data->es_principal===false){
+        if($estudianteRepresentante->isPrincipal() && $data->principal===false){
             throw new BadRequestHttpException('El estudiante debe tener un representante principal');
         }
         
@@ -149,7 +149,7 @@ class EstudianteRepresentanteController extends AbstractController
             throw new BadRequestHttpException(implode(' ', $errorMessages));
         }
         
-        if($estudianteRepresentante->isEsPrincipal()===true){
+        if($estudianteRepresentante->isPrincipal()===true){
              $this->preCreateOrUpdateChangue($updatedEstudianteRepresentante);
         }
         
@@ -173,7 +173,7 @@ class EstudianteRepresentanteController extends AbstractController
             throw new BadRequestHttpException('EstudianteRepresentante no existe');
         }
 
-        if($estudianteRepresentante->isEsPrincipal()){
+        if($estudianteRepresentante->isPrincipal()){
             throw new BadRequestHttpException('No puede eliminar el representante principal');
         }
 
@@ -189,7 +189,7 @@ class EstudianteRepresentanteController extends AbstractController
         if(!$estudianteRepresentanteActual->getId()){ 
                 $estudianteRepresentanteExistente = $this->estudianteRepresentanteRepository->findOneBy([
                     "estudiante"=>$estudianteRepresentanteActual->getEstudiante(),
-                    "esPrincipal"=>true
+                    "principal"=>true
                 ]); 
         //cuando se actualiza un estudianteRepresentante, obtenemos es el estudianteRepresentanteExistente siempre cuando no sea e mismo del actual
         }else{ 
@@ -198,7 +198,7 @@ class EstudianteRepresentanteController extends AbstractController
         
         //cambiamos el estudianteRepresentante esistente a false
         if($estudianteRepresentanteExistente){
-            $estudianteRepresentanteExistente->setEsPrincipal(false);
+            $estudianteRepresentanteExistente->setPrincipal(false);
             $this->entityManager->persist($estudianteRepresentanteExistente);
         } 
     }
