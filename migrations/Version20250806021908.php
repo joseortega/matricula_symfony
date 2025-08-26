@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250729094915 extends AbstractMigration
+final class Version20250806021908 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -30,13 +30,13 @@ final class Version20250729094915 extends AbstractMigration
             CREATE TABLE estado_matricula (id INT AUTO_INCREMENT NOT NULL, descripcion VARCHAR(100) NOT NULL, detalle VARCHAR(255) NOT NULL, codigo_sistema VARCHAR(30) NOT NULL, UNIQUE INDEX UNIQ_CB9570F33800E79D (codigo_sistema), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE estudiante (id INT AUTO_INCREMENT NOT NULL, pais_nacionalidad_id INT NOT NULL, uniforme_talla_id INT DEFAULT NULL, identificacion VARCHAR(30) NOT NULL, apellidos VARCHAR(100) NOT NULL, nombres VARCHAR(100) NOT NULL, sexo VARCHAR(10) NOT NULL, fecha_nacimiento DATE NOT NULL, direccion VARCHAR(255) NOT NULL, telefono VARCHAR(20) DEFAULT NULL, correo VARCHAR(255) DEFAULT NULL, tiene_discapacidad TINYINT(1) NOT NULL, creado_en DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', actualizado_en DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', UNIQUE INDEX UNIQ_3B3F3FAD84291D2B (identificacion), INDEX IDX_3B3F3FAD6E72F3DA (pais_nacionalidad_id), INDEX IDX_3B3F3FADDC47B5C3 (uniforme_talla_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
+            CREATE TABLE estudiante (id INT AUTO_INCREMENT NOT NULL, pais_nacionalidad_id INT NOT NULL, uniforme_talla_id INT DEFAULT NULL, identificacion VARCHAR(30) NOT NULL, apellidos VARCHAR(100) NOT NULL, nombres VARCHAR(100) NOT NULL, sexo VARCHAR(10) NOT NULL, fecha_nacimiento DATE NOT NULL COMMENT '(DC2Type:date_immutable)', direccion VARCHAR(255) NOT NULL, telefono VARCHAR(20) DEFAULT NULL, correo VARCHAR(255) DEFAULT NULL, tiene_discapacidad TINYINT(1) NOT NULL, creado_en DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', actualizado_en DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', UNIQUE INDEX UNIQ_3B3F3FAD84291D2B (identificacion), INDEX IDX_3B3F3FAD6E72F3DA (pais_nacionalidad_id), INDEX IDX_3B3F3FADDC47B5C3 (uniforme_talla_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE estudiante_representante (id INT AUTO_INCREMENT NOT NULL, estudiante_id INT NOT NULL, representante_id INT NOT NULL, parentesco_id INT NOT NULL, principal TINYINT(1) NOT NULL, creado_en DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', actualizado_en DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', INDEX IDX_16A02FED59590C39 (estudiante_id), INDEX IDX_16A02FED2FD20D28 (representante_id), INDEX IDX_16A02FED5BA311FC (parentesco_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE expediente (id INT AUTO_INCREMENT NOT NULL, estudiante_id INT NOT NULL, fecha_ingreso DATETIME DEFAULT NULL, completo TINYINT(1) NOT NULL, retirado TINYINT(1) NOT NULL, fecha_retiro DATETIME DEFAULT NULL, observacion LONGTEXT DEFAULT NULL, creado_en DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', actualizado_en DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', UNIQUE INDEX UNIQ_D59CA41359590C39 (estudiante_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
+            CREATE TABLE expediente (id INT AUTO_INCREMENT NOT NULL, estudiante_id INT NOT NULL, fecha_ingreso DATETIME DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)', completo TINYINT(1) NOT NULL, retirado TINYINT(1) NOT NULL, fecha_retiro DATETIME DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)', observacion LONGTEXT DEFAULT NULL, creado_en DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', actualizado_en DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', UNIQUE INDEX UNIQ_D59CA41359590C39 (estudiante_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE expediente_requisito (expediente_id INT NOT NULL, requisito_id INT NOT NULL, INDEX IDX_34CEF95F4BF37E4E (expediente_id), INDEX IDX_34CEF95FFA50198E (requisito_id), PRIMARY KEY(expediente_id, requisito_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
@@ -75,10 +75,10 @@ final class Version20250729094915 extends AbstractMigration
             CREATE TABLE parentesco (id INT AUTO_INCREMENT NOT NULL, descripcion VARCHAR(100) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE periodo_lectivo (id INT AUTO_INCREMENT NOT NULL, descripcion VARCHAR(100) NOT NULL, fecha_inicio DATE NOT NULL, fecha_fin DATE NOT NULL, habilitado_para_matricula TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
+            CREATE TABLE periodo_lectivo (id INT AUTO_INCREMENT NOT NULL, descripcion VARCHAR(100) NOT NULL, fecha_inicio DATE NOT NULL COMMENT '(DC2Type:date_immutable)', fecha_fin DATE NOT NULL COMMENT '(DC2Type:date_immutable)', habilitado_para_matricula TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE representante (id INT AUTO_INCREMENT NOT NULL, pais_nacionalidad_id INT NOT NULL, identificacion VARCHAR(30) NOT NULL, apellidos VARCHAR(100) NOT NULL, nombres VARCHAR(100) NOT NULL, sexo VARCHAR(10) NOT NULL, fecha_nacimiento DATE DEFAULT NULL, direccion VARCHAR(255) NOT NULL, telefono VARCHAR(20) DEFAULT NULL, correo VARCHAR(255) DEFAULT NULL, creado_en DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', actualizado_en DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', UNIQUE INDEX UNIQ_DE2D59584291D2B (identificacion), INDEX IDX_DE2D5956E72F3DA (pais_nacionalidad_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
+            CREATE TABLE representante (id INT AUTO_INCREMENT NOT NULL, pais_nacionalidad_id INT NOT NULL, identificacion VARCHAR(30) NOT NULL, apellidos VARCHAR(100) NOT NULL, nombres VARCHAR(100) NOT NULL, sexo VARCHAR(10) NOT NULL, fecha_nacimiento DATE DEFAULT NULL COMMENT '(DC2Type:date_immutable)', direccion VARCHAR(255) NOT NULL, telefono VARCHAR(20) DEFAULT NULL, correo VARCHAR(255) DEFAULT NULL, creado_en DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', actualizado_en DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', UNIQUE INDEX UNIQ_DE2D59584291D2B (identificacion), INDEX IDX_DE2D5956E72F3DA (pais_nacionalidad_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE requisito (id INT AUTO_INCREMENT NOT NULL, descripcion VARCHAR(150) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB

@@ -9,10 +9,15 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Exclude;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EstudianteRepository::class)]
 #[ORM\HasLifecycleCallbacks] // ¡Este atributo es crucial!
+#[UniqueEntity(
+    fields: ['identificacion'],
+    message: 'El estudiante o número de identificación ya está registrado.'
+)]
 class Estudiante
 {
     public const SEXO_HOMBRE = 'HOMBRE';

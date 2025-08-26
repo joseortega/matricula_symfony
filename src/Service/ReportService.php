@@ -317,7 +317,7 @@ class ReportService {
         string $periodoFilter,
         string $gradoFilter,
         string $paraleloFilter,
-        string $estadoMatriculaFilter,
+        array $estadoMatriculaFilter,
         string $searchFilter,
         array $matriculas
     ) {
@@ -354,7 +354,13 @@ class ReportService {
         $pdf->SetFont('helvetica', 'B', 12);
         $pdf->Cell(35,5,'Estado: ',0,0,'L',1);
         $pdf->SetFont('helvetica', '', 12);
-        $pdf->Cell(0,5,$estadoMatriculaFilter,0,1,'L');
+        if(!empty($estadoMatriculaFilter)){
+            // Convertimos el array en string separado por coma
+            $estadoStr = implode(', ', $estadoMatriculaFilter);
+            $pdf->MultiCell(0, 5, $estadoStr, 0, 'L');
+        }else{
+            $pdf->Cell(0,5,"Todos",0,1,'L');
+        }
 
         $pdf->SetFont('helvetica', 'B', 12);
         $pdf->Cell(50,5,'Término de Busqueda: ',0,0,'L',1);

@@ -213,6 +213,10 @@ class MatriculaController extends AbstractController
             throw new BadRequestHttpException('No existe el representante principal.');
         }
 
+        if(!$matricula->isLegalizada()){
+            throw new BadRequestHttpException('Para imprimir los documentos y legalizar, en datos de matricula marque como legalizada');
+        }
+
         // Generar el PDF
         $pdf = $this->reportService->printCartaAutorizacion($matricula, $estudianteRepresentantePrincipal);
         // 'S' devuelve el PDF como cadena
@@ -237,6 +241,10 @@ class MatriculaController extends AbstractController
             throw new BadRequestHttpException('No existe el representante principal.');
         }
 
+        if(!$matricula->isLegalizada()){
+            throw new BadRequestHttpException('Para imprimir los documentos y legalizar, en datos de matricula marque como legalizada');
+        }
+
         // Generar el PDF
         $pdf = $this->reportService->printActaCompromiso($matricula, $estudianteRepresentantePrincipal);
         // 'S' devuelve el PDF como cadena
@@ -254,7 +262,7 @@ class MatriculaController extends AbstractController
         $periodoLectivoId = $request->query->get('periodo_lectivo');
         $gradoEscolarId = $request->query->get('grado_escolar');
         $paraleloId = $request->query->get('paralelo');
-        $estadoMatriculaId = $request->query->get('estado_matricula');
+        $estadoMatriculas = $request->query->get('estado_matriculas');
         $searchTerm = $request->query->get('search_term');
 
         $periodoFilter = "Todos";
@@ -275,10 +283,25 @@ class MatriculaController extends AbstractController
             $paraleloFilter = $paraleloId ? $paralelo->getDescripcion(): "No Encontrado";
         }
 
-        $estadoMatriculaFilter = "Todos";
-        if($estadoMatriculaId){
-            $estadoMatricula = $this->estadoMatriculaRepository->find($estadoMatriculaId);
-            $estadoMatriculaFilter = $estadoMatriculaId ? $estadoMatricula->getDescripcion(): "No Encontrado";
+        $estadoMatriculasIds = [];
+
+        if($estadoMatriculas){
+            $estadoMatriculasIds = explode(',', $estadoMatriculas);
+            // 👉 convierte "1,3,4" en ["1","3","4"]
+            $estadoMatriculasIds = array_map('intval', $estadoMatriculasIds);
+            // 👉 convierte a enteros [1,3,4]
+        }
+
+        $estadoMatriculaFilter = [];
+        if (!empty($estadoMatriculasIds)) { // ahora es un array
+            foreach ($estadoMatriculasIds as $id) {
+                $estado = $this->estadoMatriculaRepository->find($id);
+                if ($estado) {
+                    $estadoMatriculaFilter[] = $estado->getDescripcion();
+                } else {
+                    $estadoMatriculaFilter[] = "No Encontrado";
+                }
+            }
         }
 
         $searchFilter = $searchTerm ?: "Ninguno";
@@ -288,7 +311,7 @@ class MatriculaController extends AbstractController
             $periodoLectivoId,
             $gradoEscolarId,
             $paraleloId,
-            $estadoMatriculaId,
+            $estadoMatriculasIds,
             $searchTerm
         );
 
@@ -315,14 +338,23 @@ class MatriculaController extends AbstractController
         $periodoLectivoId = $request->query->get('periodo_lectivo');
         $gradoEscolarId = $request->query->get('grado_escolar');
         $paraleloId = $request->query->get('paralelo');
-        $estadoMatriculaId = $request->query->get('estado_matricula');
+        $estadoMatriculas = $request->query->get('estado_matriculas');
         $searchTerm = $request->query->get('search_term');
+
+        $estadoMatriculasIds = [];
+
+        if($estadoMatriculas){
+            $estadoMatriculasIds = explode(',', $estadoMatriculas);
+            // 👉 convierte "1,3,4" en ["1","3","4"]
+            $estadoMatriculasIds = array_map('intval', $estadoMatriculasIds);
+            // 👉 convierte a enteros [1,3,4]
+        }
 
         $query = $this->matriculaRepository->findAllQuery(
             $periodoLectivoId,
             $gradoEscolarId,
             $paraleloId,
-            $estadoMatriculaId,
+            $estadoMatriculasIds,
             $searchTerm
         );
 

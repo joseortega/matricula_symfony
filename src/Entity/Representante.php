@@ -11,9 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Exclude;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: RepresentanteRepository::class)]
 #[ORM\HasLifecycleCallbacks] // ¡Este atributo es crucial!
+#[UniqueEntity(
+    fields: ['identificacion'],
+    message: 'El representante o número de identificación ya está registrado.'
+)]
 class Representante
 {
     public const SEXO_HOMBRE = 'HOMBRE';
