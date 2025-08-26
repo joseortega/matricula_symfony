@@ -53,7 +53,8 @@ class MatriculaRepository extends ServiceEntityRepository
         $searchTerm = '')
     {
         $qb = $this->createQueryBuilder('m')
-            ->innerJoin('m.estudiante', 'e');
+            ->innerJoin('m.estudiante', 'e')
+            ->orderBy('e.apellidos', 'ASC'); // Ordenar por apellidos ascendente
 
         if ($periodoLectivoId !== null) {
             $qb->andWhere('m.periodoLectivo = :periodo_lectivo')
