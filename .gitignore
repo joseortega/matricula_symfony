@@ -30,3 +30,8 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+###> symfony/dataFixtures ###
+/src/DataFixtures/sql/
+/src/DataFixtures/yaml/
+###> symfony/dataFixtures ###
