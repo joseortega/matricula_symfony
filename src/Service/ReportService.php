@@ -374,6 +374,7 @@ class ReportService {
         $pdf->SetFont('helvetica', '', 8);
         $pdf->setFillColor(58, 83, 155);
         $pdf->setTextColor(255);
+        $pdf->Cell(8, 10, 'Nro', 1, 0, 'L', true);
         $pdf->Cell(18, 10, 'Identificacion', 1, 0, 'L', true);
         $pdf->Cell(80, 10, 'Nombres', 1, 0, 'L', true);
         $pdf->Cell(22, 10, 'Periodo Lectivo', 1, 0, 'C', true);
@@ -382,11 +383,14 @@ class ReportService {
         //Datos
         $pdf->setFillColor(255);
         $pdf->setTextColor(0);
+        $count = 1;
         foreach ($matriculas as $matricula) {
+            $pdf->Cell(8, 10, $count, 1, 0, 'L', true);
             $pdf->Cell(18, 10, $matricula->getEstudiante()->getIdentificacion(), 1, 0, 'L', true);
             $pdf->Cell(80, 10, $matricula->getEstudiante(), 1, 0, 'L', true);
             $pdf->Cell(22, 10, $matricula->getPeriodoLectivo(), 1, 0, 'C', true);
             $pdf->Cell(0, 10, $matricula->getGradoEscolar(), 1, 1, 'L', true);
+            $count++;
         }
 
         return $pdf;
