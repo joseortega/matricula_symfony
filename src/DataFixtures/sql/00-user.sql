@@ -1,1 +1,0 @@
-/*ingresar desde fitures: php bin/console doctrine:fixtures:load --group=users --append */

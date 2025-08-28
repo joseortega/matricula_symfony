@@ -1,2 +1,0 @@
-INSERT INTO institucion(id, circuito_id, codigo, denominacion, ruc, telefono, correo, direccion) VALUES
-    (1, 1,'14H00298','UNIDAD EDUCATIVA HÉROES DEL CENEPA', '1460028620001','0960750902', 'heroes.cenepa.educacion@gmail.com', 'PARROQUIA PATUCA - BARRIO LA BARRANCA');
