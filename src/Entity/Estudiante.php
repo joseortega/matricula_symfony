@@ -93,6 +93,9 @@ class Estudiante
     #[ORM\OneToOne(mappedBy: 'estudiante', cascade: ['persist', 'remove'])]
     private ?Expediente $expediente = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $observacion = null;
+
 
     public function __construct()
     {
@@ -364,6 +367,18 @@ class Estudiante
 
     public function __toString() {
         return  $this->getApellidos().' '.$this->getNombres();
+    }
+
+    public function getObservacion(): ?string
+    {
+        return $this->observacion;
+    }
+
+    public function setObservacion(?string $observacion): static
+    {
+        $this->observacion = $observacion;
+
+        return $this;
     }
 
 }
