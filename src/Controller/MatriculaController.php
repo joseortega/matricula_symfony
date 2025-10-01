@@ -11,7 +11,7 @@ use App\Repository\GradoEscolarRepository;
 use App\Repository\MatriculaRepository;
 use App\Repository\ParaleloRepository;
 use App\Repository\PeriodoLectivoRepository;
-use App\Service\ReportService;
+use App\Service\ReportPdfService;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,7 +40,7 @@ class MatriculaController extends AbstractController
         private PaginatorInterface $paginator,
         private EntityManagerInterface $entityManager,
         private MatriculaRepository $matriculaRepository,
-        private ReportService $reportService,
+        private ReportPdfService $reportPdfService,
         private EstudianteRepresentanteRepository $estudianteRepresentanteRepository,
         private PeriodoLectivoRepository $periodoLectivoRepository,
         private GradoEscolarRepository $gradoEscolarRepository,
@@ -156,7 +156,7 @@ class MatriculaController extends AbstractController
         }
 
         // Generar el PDF
-        $pdf = $this->reportService->printCertifidadoMatricula($matricula);
+        $pdf = $this->reportPdfService->printCertifidadoMatricula($matricula);
         // 'S' devuelve el PDF como cadena
         $pdfContent = $pdf->Output('', 'S');
         // Devolver el PDF como respuesta
@@ -176,7 +176,7 @@ class MatriculaController extends AbstractController
         }
 
         // Generar el PDF
-        $pdf = $this->reportService->printCertifidadoPreInscripción($matricula);
+        $pdf = $this->reportPdfService->printCertifidadoPreInscripcion($matricula);
         // 'S' devuelve el PDF como cadena
         $pdfContent = $pdf->Output('', 'S');
         // Devolver el PDF como respuesta
@@ -196,7 +196,7 @@ class MatriculaController extends AbstractController
         }
 
         // Generar el PDF
-        $pdf = $this->reportService->printCertifidadoMatriculaAsistencia($matricula);
+        $pdf = $this->reportPdfService->printCertifidadoMatriculaAsistencia($matricula);
         // 'S' devuelve el PDF como cadena
         $pdfContent = $pdf->Output('', 'S');
         // Devolver el PDF como respuesta
@@ -224,7 +224,7 @@ class MatriculaController extends AbstractController
         }
 
         // Generar el PDF
-        $pdf = $this->reportService->printCartaAutorizacion($matricula, $estudianteRepresentantePrincipal);
+        $pdf = $this->reportPdfService->printCartaAutorizacion($matricula, $estudianteRepresentantePrincipal);
         // 'S' devuelve el PDF como cadena
         $pdfContent = $pdf->Output('', 'S');
         // Devolver el PDF como respuesta
@@ -252,7 +252,7 @@ class MatriculaController extends AbstractController
         }
 
         // Generar el PDF
-        $pdf = $this->reportService->printActaCompromiso($matricula, $estudianteRepresentantePrincipal);
+        $pdf = $this->reportPdfService->printActaCompromiso($matricula, $estudianteRepresentantePrincipal);
         // 'S' devuelve el PDF como cadena
         $pdfContent = $pdf->Output('', 'S');
         // Devolver el PDF como respuesta
@@ -322,7 +322,7 @@ class MatriculaController extends AbstractController
         );
 
         // Generar el PDF
-        $pdf = $this->reportService->printMatriculaList(
+        $pdf = $this->reportPdfService->printMatriculaList(
             $periodoFilter,
             $gradoEscolarFilter,
             $paraleloFilter,
@@ -365,14 +365,6 @@ class MatriculaController extends AbstractController
         );
 
         return $query;
-    }
-
-    public function legalizacion(Request $request, Matricula $matricula): void{
-        $isLegalizada= $request->query->get('legalizada');
-
-        if($isLegalizada !== $matricula->isLegalizada()){
-            if($isLegalizada){}
-        }
     }
 
     #[Route('/excel-matricula-list', name: 'app_matricula_excel_matricula_list', methods: ['GET'])]

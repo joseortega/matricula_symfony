@@ -6,7 +6,7 @@ use App\Entity\Institucion;
 use App\Repository\InstitucionRepository;
 use TCPDF;
 
-class PDFService extends TCPDF
+class PdfService extends TCPDF
 {
     private Institucion $institucion;
     public function __construct(

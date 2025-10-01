@@ -6,7 +6,7 @@ use App\Entity\Expediente;
 use App\Repository\EstudianteRepository;
 use App\Repository\EstudianteRepresentanteRepository;
 use App\Repository\ExpedienteRepository;
-use App\Service\ReportService;
+use App\Service\ReportPdfService;
 
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\DeserializationContext;
@@ -27,7 +27,7 @@ class ExpedienteController extends AbstractController
         private EntityManagerInterface $entityManager,
         private EstudianteRepository $estudianteRepository,
         private ExpedienteRepository $expedienteRepository,
-        private ReportService $reportService,
+        private ReportPdfService $reportPdfService,
         private EstudianteRepresentanteRepository $estudianteRepresentanteRepository,
     ){
     }
@@ -178,7 +178,7 @@ class ExpedienteController extends AbstractController
         }
 
         // Generar el PDF
-        $pdf = $this->reportService->printRetiroExpediente($expediente, $estudianteRepresentantePrincipal);
+        $pdf = $this->reportPdfService->printRetiroExpediente($expediente, $estudianteRepresentantePrincipal);
         // 'S' devuelve el PDF como cadena
         $pdfContent = $pdf->Output('', 'S');
         // Devolver el PDF como respuesta

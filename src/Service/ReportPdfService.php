@@ -5,7 +5,7 @@ namespace App\Service;
 
 use App\Entity\EstudianteRepresentante;
 use App\Entity\Expediente;
-use App\Service\PDFService;
+use App\Service\PdfService;
 use App\Entity\Matricula;
 
 /**
@@ -13,10 +13,10 @@ use App\Entity\Matricula;
  *
  * @author joshe
  */
-class ReportService {
+class ReportPdfService {
     //put your code here
     public function __construct(
-            private PDFService $pdfService,) {
+            private PdfService $pdfService,) {
     }
     
     public function printCertifidadoMatricula(Matricula $matricula) {
@@ -65,7 +65,7 @@ class ReportService {
         return $pdf;   
     }
 
-    public function printCertifidadoPreInscripción(Matricula $matricula) {
+    public function printCertifidadoPreInscripcion(Matricula $matricula) {
 
         $pdf = $this->pdfService->createPDF();
 
@@ -271,15 +271,15 @@ class ReportService {
         $pdf->writeHTMLCell(0, 20, '', '', $titulo, 0, 1, 0, true, 'C', true);
 
         $fechaRetiro = $expediente->getFechaRetiro();
-        $año  = $fechaRetiro->format('Y');
-        $mes   = $fechaRetiro->format('m');
-        $dia   = $fechaRetiro->format('d');
-        $hora = $fechaRetiro->format('H:i');
+        $year  = $fechaRetiro->format('Y');
+        $month   = $fechaRetiro->format('m');
+        $day   = $fechaRetiro->format('d');
+        $hour = $fechaRetiro->format('H:i');
 
         $contenido ="
         <p style='text-align: justify; margin: 0;'>
-            En la secretaría de la institución <b> a los {$dia} dias del mes {$mes} del {$año}</b>
-            siendo  <b>{$hora}</b>, el rector de la institución, hace la entrega del expediente académico del <b>estudiante:
+            En la secretaría de la institución <b> a los {$day} dias del mes {$month} del {$year}</b>
+            siendo  <b>{$hour}</b>, el rector de la institución, hace la entrega del expediente académico del <b>estudiante:
             {$expediente->getEstudiante()}</b> con número de cedula <b>{$expediente->getEstudiante()->getIdentificacion()}</b>
             a el/la Sr./Sra. <b>{$estudianteRepresentantePrincipal->getRepresentante()}</b>
             con número de cédula <b>{$estudianteRepresentantePrincipal->getRepresentante()->getIdentificacion()}</b>
