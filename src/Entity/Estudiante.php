@@ -11,6 +11,7 @@ use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Exclude;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Criteria;
 
 #[ORM\Entity(repositoryClass: EstudianteRepository::class)]
 #[ORM\HasLifecycleCallbacks] // ¡Este atributo es crucial!
@@ -379,6 +380,17 @@ class Estudiante
         $this->observacion = $observacion;
 
         return $this;
+    }
+
+    public function getRepresentantePrincipal()
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('principal', true))
+            ->setMaxResults(1);
+
+        $representantePrincipal = $this->estudianteRepresentantes->matching($criteria)->first();
+
+        return $representantePrincipal ? $representantePrincipal->getRepresentante() : null;
     }
 
 }

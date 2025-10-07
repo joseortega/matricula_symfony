@@ -28,7 +28,7 @@ class ReportExcelService
         $sheet = $spreadsheet->getActiveSheet();
 
 
-        //Encabezado
+        //Filtros de busqueda
         $sheet->getStyle('A1:A5')->getFont()->setBold(true);
 
         $sheet->mergeCells('A1:B1');
@@ -60,7 +60,7 @@ class ReportExcelService
 
         $sheet->getStyle('A7:J7')->getFont()->setBold(true);
 
-        //encabezado de Tabla
+        //Encabezado de Tabla
         $sheet->setCellValue("A7", "Nro");
         $sheet->setCellValue("B7", "Identificación");
         $sheet->setCellValue("C7", "Nombres");
@@ -72,14 +72,18 @@ class ReportExcelService
         $sheet->setCellValue("I7", "Estado");
         $sheet->setCellValue("J7", "Consta-CAS?");
         $sheet->setCellValue("K7", "Está-Legalizada?");
+        $sheet->setCellValue("L7", "Representante-Legal");
+        $sheet->setCellValue("M7", "Representante-Identificación");
+        $sheet->setCellValue("N7", "Representante-Contacto");
+        $sheet->setCellValue("O7", "Representante-Dirección");
 
-        $this->estiloEncabezadoTabla($sheet, 'A7:K7');
+        $this->estiloEncabezadoTabla($sheet, 'A7:O7');
 
         //Datos de tabla
         $row = 8;
         $count = 1;
 
-        foreach (range('A', 'K') as $col) {
+        foreach (range('A', 'O') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
@@ -100,6 +104,13 @@ class ReportExcelService
             $sheet->setCellValue('J'.$row, $matricula->isInscritoSistemaPublico());
             $sheet->setCellValue('K'.$row, $matricula->isLegalizada());
 
+            if($representante = $matricula->getEstudiante()->getRepresentantePrincipal()){
+                $sheet->setCellValue('L'.$row, $representante->getApellidos()." ".$representante->getNombres());
+                $sheet->setCellValue('M'.$row, $representante->getIdentificacion());
+                $sheet->setCellValue('N'.$row, $representante->getTelefono());
+                $sheet->setCellValue('O'.$row, $representante->getDireccion());
+            }
+
             $row++;
             $count++;
         }
@@ -111,7 +122,7 @@ class ReportExcelService
         $endRow = $row - 1;
 
         // Definir el rango
-        $range = 'A' . $startRow . ':K' . $endRow;
+        $range = 'A' . $startRow . ':O' . $endRow;
 
         $this->estiloCeldaTabla($sheet, $range);
 

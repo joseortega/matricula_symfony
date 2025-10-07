@@ -418,7 +418,7 @@ class MatriculaController extends AbstractController
         $searchFilter = $searchTerm ?: "Ninguno";
 
 
-        $query = $this->matriculaRepository->findAllQuery(
+        $query = $this->matriculaRepository->findAllWhitRepresentanteQuery(
             $periodoLectivoId,
             $gradoEscolarId,
             $paraleloId,
