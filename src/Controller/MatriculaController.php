@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\EstadoMatricula;
 use App\Entity\Matricula;
 use App\Repository\EstadoMatriculaRepository;
-use App\Repository\EstudianteRepository;
+
 use App\Repository\EstudianteRepresentanteRepository;
 use App\Repository\GradoEscolarRepository;
 use App\Repository\MatriculaRepository;
@@ -13,7 +12,6 @@ use App\Repository\ParaleloRepository;
 use App\Repository\PeriodoLectivoRepository;
 use App\Service\ReportPdfService;
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

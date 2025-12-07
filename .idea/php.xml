@@ -59,7 +59,6 @@
       <path value="$PROJECT_DIR$/vendor/jms/metadata" />
       <path value="$PROJECT_DIR$/vendor/jms/serializer" />
       <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
-      <path value="$PROJECT_DIR$/vendor/knplabs/knp-paginator-bundle" />
       <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
       <path value="$PROJECT_DIR$/vendor/doctrine/deprecations" />
       <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
@@ -152,7 +151,6 @@
       <path value="$PROJECT_DIR$/vendor/symfony/translation-contracts" />
       <path value="$PROJECT_DIR$/vendor/twig/twig" />
       <path value="$PROJECT_DIR$/vendor/jms/serializer-bundle" />
-      <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
       <path value="$PROJECT_DIR$/vendor/symfony/filesystem" />
       <path value="$PROJECT_DIR$/vendor/symfony/config" />
       <path value="$PROJECT_DIR$/vendor/lcobucci/jwt" />
@@ -176,6 +174,9 @@
       <path value="$PROJECT_DIR$/vendor/psr/http-message" />
       <path value="$PROJECT_DIR$/vendor/markbaker/complex" />
       <path value="$PROJECT_DIR$/vendor/markbaker/matrix" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php85" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-paginator-bundle" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
